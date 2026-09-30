@@ -1,0 +1,2514 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>O Enigma da Torre da Diversidade</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts: Inter e Lexend (otimizada para leitura) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Lexend:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Transições e Estilos de Acessibilidade */
+    body {
+      font-family: 'Inter', sans-serif;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    /* Modo Dislexia - Tipografia de alta diferenciação */
+    .dyslexia-font {
+      font-family: 'Lexend', 'Comic Sans MS', sans-serif !important;
+      letter-spacing: 0.05em !important;
+      word-spacing: 0.12em !important;
+      line-height: 1.8 !important;
+    }
+
+    /* Espaçamento WCAG 1.4.12 */
+    .expanded-spacing {
+      letter-spacing: 0.12em !important;
+      word-spacing: 0.2em !important;
+      line-height: 2 !important;
+    }
+
+    /* Modo Alto Contraste */
+    .high-contrast {
+      background-color: #000000 !important;
+      color: #ffeb3b !important;
+    }
+    .high-contrast .bg-slate-900,
+    .high-contrast .bg-slate-800,
+    .high-contrast .bg-slate-950,
+    .high-contrast header {
+      background-color: #0a0a0a !important;
+      border-color: #ffeb3b !important;
+      color: #ffffff !important;
+    }
+    .high-contrast input,
+    .high-contrast textarea {
+      background-color: #111111 !important;
+      border: 2px solid #ffeb3b !important;
+      color: #ffffff !important;
+    }
+    .high-contrast button {
+      border: 2px solid #ffeb3b !important;
+    }
+
+    /* Sem animações (Redução de Movimento) */
+    .no-motion * {
+      animation: none !important;
+      transition: none !important;
+    }
+
+    /* Régua de leitura */
+    #reading-ruler {
+      display: none;
+      position: fixed;
+      left: 0;
+      width: 100vw;
+      height: 46px;
+      pointer-events: none;
+      z-index: 9999;
+      background: rgba(250, 204, 21, 0.18);
+      border-top: 2px solid rgba(250, 204, 21, 0.85);
+      border-bottom: 2px solid rgba(250, 204, 21, 0.85);
+      box-shadow: 0 0 24px rgba(250, 204, 21, 0.35);
+      transform: translateY(-50%);
+    }
+
+    /* Tamanhos de Fonte */
+    .font-size-0 { font-size: 0.875rem; }
+    .font-size-1 { font-size: 1rem; }
+    .font-size-2 { font-size: 1.15rem; }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 text-slate-100 min-h-screen antialiased selection:bg-amber-400 selection:text-slate-950 font-size-1">
+
+  <div id="reading-ruler" aria-hidden="true"></div>
+
+  <!-- Header com Controlo de Acessibilidade e Idiomas -->
+  <header role="banner" class="sticky top-0 z-40 backdrop-blur-md bg-slate-900/90 border-b border-slate-800 shadow-xl">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-3">
+      <!-- Logótipo e Título -->
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-indigo-500 flex items-center justify-center shadow-lg shadow-amber-500/20 ring-2 ring-amber-400/40">
+          <i data-lucide="shield" class="w-6 h-6 text-slate-950"></i>
+        </div>
+        <div>
+          <h1 id="app-title" class="font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-rose-300 to-indigo-300 text-base sm:text-xl">
+            O Enigma da Torre da Diversidade
+          </h1>
+          <p id="app-subtitle" class="text-xs text-slate-400 hidden sm:block">
+            Missão de Cidadania e Direitos Humanos • 2.º e 3.º Ciclos (DUA)
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center flex-wrap gap-1.5 sm:gap-2">
+        <!-- Seletor de Idioma -->
+        <div class="flex items-center bg-slate-800/90 border border-slate-700 rounded-lg p-0.5" id="lang-selector">
+          <button data-lang="pt" class="lang-btn px-2 py-1 text-xs font-bold rounded-md bg-indigo-600 text-white">PT 🇵🇹</button>
+          <button data-lang="en" class="lang-btn px-2 py-1 text-xs font-bold rounded-md text-slate-400 hover:text-white">EN 🇬🇧</button>
+          <button data-lang="fr" class="lang-btn px-2 py-1 text-xs font-bold rounded-md text-slate-400 hover:text-white">FR 🇫🇷</button>
+          <button data-lang="uk" class="lang-btn px-2 py-1 text-xs font-bold rounded-md text-slate-400 hover:text-white">UK 🇺🇦</button>
+        </div>
+
+        <!-- Síntese de Voz (TTS) -->
+        <button id="btn-tts" class="p-2 rounded-lg bg-slate-800/90 text-slate-200 border border-slate-700 hover:bg-slate-700 flex items-center gap-1.5 text-xs font-semibold" title="Ouvir">
+          <i data-lucide="volume-2" class="w-4 h-4 text-amber-400"></i>
+          <span id="tts-label" class="hidden md:inline">Ouvir Guia</span>
+        </button>
+
+        <!-- Velocidade de Fala -->
+        <button id="btn-speed" class="p-2 rounded-lg bg-slate-800/90 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs font-bold flex items-center gap-1" title="Velocidade de Leitura">
+          <i data-lucide="gauge" class="w-4 h-4 text-indigo-400"></i>
+          <span id="speed-indicator">1.0x</span>
+        </button>
+
+        <!-- Efeitos Sonoros -->
+        <button id="btn-sound" class="p-2 rounded-lg bg-slate-800/90 hover:bg-slate-700 border border-slate-700 text-slate-300" title="Efeitos Sonoros">
+          <i data-lucide="sparkles" class="w-4 h-4 text-amber-400"></i>
+        </button>
+
+        <!-- Tamanho do Texto -->
+        <div class="flex items-center rounded-lg bg-slate-800/90 border border-slate-700 p-0.5">
+          <button id="btn-font-dec" class="px-2 py-1 text-xs font-bold text-slate-300 hover:text-white" title="Reduzir Letra">A-</button>
+          <span class="text-xs px-1 text-slate-400">Aa</span>
+          <button id="btn-font-inc" class="px-2 py-1 text-xs font-bold text-slate-300 hover:text-white" title="Aumentar Letra">A+</button>
+        </div>
+
+        <!-- Modo Dislexia -->
+        <button id="btn-dyslexia" class="p-2 rounded-lg text-xs font-semibold border bg-slate-800/90 text-slate-300 border-slate-700 hover:bg-slate-700 flex items-center gap-1" title="Modo Dislexia">
+          <i data-lucide="type" class="w-4 h-4"></i>
+          <span id="dyslexia-label" class="hidden lg:inline">Modo Dislexia</span>
+        </button>
+
+        <!-- Espaçamento Expandido -->
+        <button id="btn-spacing" class="p-2 rounded-lg text-xs font-semibold border bg-slate-800/90 text-slate-300 border-slate-700 hover:bg-slate-700 flex items-center gap-1" title="Espaçamento WCAG">
+          <i data-lucide="align-justify" class="w-4 h-4"></i>
+          <span id="spacing-label" class="hidden xl:inline">Espaçamento</span>
+        </button>
+
+        <!-- Régua de Leitura -->
+        <button id="btn-ruler" class="p-2 rounded-lg text-xs font-semibold border bg-slate-800/90 text-slate-300 border-slate-700 hover:bg-slate-700 flex items-center gap-1" title="Régua de Leitura">
+          <i data-lucide="scan-line" class="w-4 h-4"></i>
+          <span id="ruler-label" class="hidden xl:inline">Régua</span>
+        </button>
+
+        <!-- Alto Contraste -->
+        <button id="btn-contrast" class="p-2 rounded-lg border text-xs font-semibold bg-slate-800/90 text-slate-300 border-slate-700 hover:bg-slate-700 flex items-center gap-1" title="Alto Contraste">
+          <i data-lucide="eye" class="w-4 h-4"></i>
+          <span id="contrast-label" class="hidden lg:inline">Contraste</span>
+        </button>
+
+        <!-- Redução de Movimento -->
+        <button id="btn-motion" class="p-2 rounded-lg border text-xs font-semibold bg-slate-800/90 text-slate-300 border-slate-700 hover:bg-slate-700 flex items-center gap-1" title="Redução de Movimento">
+          <i data-lucide="zap-off" class="w-4 h-4"></i>
+          <span id="motion-label" class="hidden xl:inline">Sem Animações</span>
+        </button>
+
+        <!-- Glossário -->
+        <button id="btn-glossary-modal" class="p-2 rounded-lg bg-indigo-600/30 text-indigo-300 border border-indigo-500/50 hover:bg-indigo-600/50 text-xs font-semibold flex items-center gap-1.5" title="Glossário Multilíngue">
+          <i data-lucide="languages" class="w-4 h-4 text-indigo-400"></i>
+          <span id="glossary-label" class="hidden sm:inline">Glossário</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 pt-1 pb-2 flex flex-wrap items-center justify-between gap-3 border-t border-slate-800/60">
+      <nav class="flex items-center space-x-1 sm:space-x-2">
+        <button data-tab="desafios" class="tab-btn flex items-center space-x-2 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-bold transition-all bg-gradient-to-r from-amber-500 to-indigo-600 text-white shadow-md">
+          <i data-lucide="key" class="w-4 h-4"></i>
+          <span id="nav-challenges-text">Desafios</span>
+        </button>
+        <button data-tab="mala" class="tab-btn flex items-center space-x-2 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-bold transition-all text-slate-300 hover:bg-slate-800 hover:text-white">
+          <i data-lucide="briefcase" class="w-4 h-4"></i>
+          <span id="nav-suitcase-text">Mala das Culturas</span>
+        </button>
+        <button data-tab="vozes" class="tab-btn flex items-center space-x-2 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-bold transition-all text-slate-300 hover:bg-slate-800 hover:text-white">
+          <i data-lucide="users" class="w-4 h-4"></i>
+          <span id="nav-voices-text">Vozes da Escola</span>
+        </button>
+        <button data-tab="artistas" class="tab-btn flex items-center space-x-2 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-bold transition-all text-slate-300 hover:bg-slate-800 hover:text-white">
+          <i data-lucide="palette" class="w-4 h-4"></i>
+          <span id="nav-artists-text">Artistas Inspiradores</span>
+        </button>
+        <button data-tab="mestre" class="tab-btn flex items-center space-x-2 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-bold transition-all text-slate-300 hover:bg-slate-800 hover:text-white">
+          <i data-lucide="shield" class="w-4 h-4"></i>
+          <span id="nav-master-text">Cadeado Mestre</span>
+        </button>
+      </nav>
+
+      <!-- Mini-Indicadores das 4 Câmaras -->
+      <div class="flex items-center space-x-2" id="chamber-track">
+        <!-- Injetado dinamicamente -->
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+    <!-- ABA 1: DESAFIOS (Escape Room) -->
+    <section id="tab-desafios" class="tab-content space-y-6">
+      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 sm:p-6 backdrop-blur-sm shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2">
+            <span id="chamber-badge" class="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-500/20 text-amber-300 border border-amber-500/30">
+              Câmara 1 / 4
+            </span>
+            <span id="chamber-status-badge" class="hidden items-center gap-1 text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+              <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i>
+              <span id="chamber-status-text">Desbloqueado</span>
+            </span>
+          </div>
+          <h2 id="chamber-title" class="text-xl sm:text-2xl font-extrabold text-white">
+            Desafio 1
+          </h2>
+        </div>
+
+        <!-- Alternador Modo Fácil (Escolha Múltipla) vs Escrita -->
+        <button id="btn-toggle-reading-mode" class="px-3 py-2 rounded-xl text-xs sm:text-sm font-bold border transition-all flex items-center gap-2 bg-slate-800 text-slate-300 border-slate-700 hover:bg-slate-700">
+          <i data-lucide="book-open" class="w-4 h-4"></i>
+          <span id="reading-mode-text">Modo Escrita Livre</span>
+        </button>
+      </div>
+
+      <!-- Lista de Perguntas da Câmara -->
+      <div id="questions-container" class="grid grid-cols-1 gap-5">
+        <!-- Renderizado dinamicamente -->
+      </div>
+
+      <!-- Mini-Cofre da Câmara -->
+      <div class="bg-gradient-to-br from-slate-900 to-indigo-950 border border-indigo-500/30 rounded-2xl p-6 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="space-y-2 text-center md:text-left">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-bold border border-indigo-500/30">
+            <i data-lucide="key" class="w-3.5 h-3.5"></i>
+            <span id="safe-badge-text">Mini-Cofre da Câmara</span>
+          </div>
+          <h3 id="safe-heading-text" class="text-lg sm:text-xl font-bold text-white">
+            Desvenda todas as pistas e insere o código lógico do cadeado
+          </h3>
+          <p id="safe-explanation-text" class="text-xs text-slate-400 max-w-xl">
+            Lógica do enigma...
+          </p>
+        </div>
+
+        <div id="safe-action-area" class="flex items-center gap-2">
+          <!-- Injetado dinamicamente: Input de Código ou Recompensa Desbloqueada -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ABA 2: MALA DAS CULTURAS (Inventário com Fotos Reais) -->
+    <section id="tab-mala" class="tab-content hidden space-y-6">
+      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <h2 id="suitcase-title" class="text-xl sm:text-2xl font-extrabold text-white flex items-center gap-2">
+            <i data-lucide="briefcase" class="w-6 h-6 text-amber-400"></i>
+            <span>Mala das Culturas</span>
+          </h2>
+          <p id="suitcase-desc" class="text-xs sm:text-sm text-slate-400">
+            Cada objeto desbloqueado representa o património imaterial e o diálogo entre povos.
+          </p>
+        </div>
+        <div id="suitcase-counter" class="px-4 py-2 rounded-xl bg-slate-800 border border-slate-700 text-xs font-bold text-slate-300">
+          0 / 4 Objetos Descobertos
+        </div>
+      </div>
+
+      <div id="suitcase-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Injetado dinamicamente -->
+      </div>
+    </section>
+
+    <!-- ABA 3: VOZES DA ESCOLA (Estúdio Multimédia e Gravação de Voz) -->
+    <section id="tab-vozes" class="tab-content hidden space-y-6">
+      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6">
+        <h2 id="voices-title" class="text-xl sm:text-2xl font-extrabold text-white flex items-center gap-2 mb-2">
+          <i data-lucide="users" class="w-6 h-6 text-indigo-400"></i>
+          <span>Vozes da Escola</span>
+        </h2>
+        <p id="voices-desc" class="text-xs sm:text-sm text-slate-400">
+          Espaço de cocriação onde turmas e alunos partilham saudações nas suas línguas maternas, reflexões e desenhos.
+        </p>
+      </div>
+
+      <!-- Formulário de Publicação -->
+      <form id="form-voice-publish" class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 sm:p-6 space-y-4">
+        <h3 id="create-voice-heading" class="font-bold text-white text-sm sm:text-base flex items-center gap-2">
+          <i data-lucide="share-2" class="w-4 h-4 text-amber-400"></i>
+          <span>Criar Novo Testemunho para a Galeria</span>
+        </h3>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <input type="text" id="voice-input-title" placeholder="Título da mensagem ou objeto" class="px-4 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400">
+          <input type="text" id="voice-input-author" placeholder="Nome / Turma / Autores" class="px-4 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400">
+        </div>
+
+        <textarea id="voice-input-text" placeholder="Descreve o teu testemunho ou tradição..." rows="3" class="w-full px-4 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400"></textarea>
+
+        <!-- Controlos: Gravador de Áudio + Upload de Desenho/Foto -->
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-2">
+          <div class="flex items-center flex-wrap gap-2">
+            <!-- Botão de Gravação de Voz Real -->
+            <button type="button" id="btn-record-voice" class="px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all">
+              <i data-lucide="mic" class="w-4 h-4 text-rose-400"></i>
+              <span id="record-voice-label">Gravar Voz</span>
+            </button>
+            <audio id="audio-preview" controls class="hidden h-8 max-w-xs"></audio>
+
+            <!-- Upload de Imagem -->
+            <label class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs font-bold flex items-center gap-1.5 cursor-pointer">
+              <i data-lucide="image" class="w-4 h-4 text-indigo-400"></i>
+              <span id="image-upload-label">Adicionar Foto/Desenho</span>
+              <input type="file" id="voice-file-input" accept="image/*" class="hidden">
+            </label>
+          </div>
+
+          <button type="submit" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-indigo-600 text-white font-bold text-xs sm:text-sm shadow-md hover:opacity-95 transition-all flex items-center gap-1.5">
+            <i data-lucide="send" class="w-4 h-4"></i>
+            <span id="share-work-btn-text">Publicar Contributo</span>
+          </button>
+        </div>
+      </form>
+
+      <!-- Grelha da Galeria das Vozes da Escola -->
+      <div id="voices-gallery" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- Injetado dinamicamente -->
+      </div>
+    </section>
+
+    <!-- ABA: ARTISTAS INSPIRADORES (10 Histórias de Várias Culturas) -->
+    <section id="tab-artistas" class="tab-content hidden space-y-6">
+      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <h2 id="artists-title" class="text-xl sm:text-2xl font-extrabold text-white flex items-center gap-2">
+            <i data-lucide="palette" class="w-6 h-6 text-amber-400"></i>
+            <span>Artistas Inspiradores</span>
+          </h2>
+          <p id="artists-desc" class="text-xs sm:text-sm text-slate-400">
+            Dez criadores de diversas partes do mundo que transformaram as suas necessidades especiais em arte universal.
+          </p>
+        </div>
+        <div class="px-4 py-2 rounded-xl bg-slate-800 border border-slate-700 text-xs font-bold text-amber-300 flex items-center gap-1.5">
+          <i data-lucide="sparkles" class="w-4 h-4 text-amber-400"></i>
+          <span>10 Histórias Globais</span>
+        </div>
+      </div>
+
+      <!-- Grelha com os 10 Artistas -->
+      <div id="artists-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- Injetado dinamicamente -->
+      </div>
+    </section>
+
+    <!-- ABA 4: CADEADO MESTRE (Grande Enigma Final) -->
+    <section id="tab-mestre" class="tab-content hidden space-y-6">
+      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 sm:p-8 text-center max-w-3xl mx-auto space-y-4">
+        <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-500 to-indigo-600 flex items-center justify-center mx-auto shadow-xl">
+          <i data-lucide="shield" class="w-8 h-8 text-slate-950"></i>
+        </div>
+        <h2 id="master-title" class="text-2xl sm:text-3xl font-black text-white">O Grande Cadeado Mestre da Torre</h2>
+        <p id="master-desc" class="text-xs sm:text-sm text-slate-400">
+          Insere os 4 códigos numéricos desvendados em cada câmara para abrir as portas da Torre da Diversidade:
+        </p>
+
+        <!-- 4 Slots dos Códigos -->
+        <div class="grid grid-cols-4 gap-3 max-w-md mx-auto py-4">
+          <div class="space-y-1">
+            <span class="text-[10px] uppercase font-bold text-slate-500" id="slot-label-1">Câmara 1</span>
+            <input type="text" id="master-input-0" placeholder="?" class="w-full h-14 text-center text-xl font-black rounded-xl bg-slate-800 border-2 border-slate-700 text-amber-300 focus:border-amber-400 focus:outline-none">
+          </div>
+          <div class="space-y-1">
+            <span class="text-[10px] uppercase font-bold text-slate-500" id="slot-label-2">Câmara 2</span>
+            <input type="text" id="master-input-1" placeholder="?" class="w-full h-14 text-center text-xl font-black rounded-xl bg-slate-800 border-2 border-slate-700 text-amber-300 focus:border-amber-400 focus:outline-none">
+          </div>
+          <div class="space-y-1">
+            <span class="text-[10px] uppercase font-bold text-slate-500" id="slot-label-3">Câmara 3</span>
+            <input type="text" id="master-input-2" placeholder="?" class="w-full h-14 text-center text-xl font-black rounded-xl bg-slate-800 border-2 border-slate-700 text-amber-300 focus:border-amber-400 focus:outline-none">
+          </div>
+          <div class="space-y-1">
+            <span class="text-[10px] uppercase font-bold text-slate-500" id="slot-label-4">Câmara 4</span>
+            <input type="text" id="master-input-3" placeholder="?" class="w-full h-14 text-center text-xl font-black rounded-xl bg-slate-800 border-2 border-slate-700 text-amber-300 focus:border-amber-400 focus:outline-none">
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+          <button id="btn-unlock-master" class="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-emerald-500 text-slate-950 font-black text-sm shadow-xl hover:scale-105 transition-all flex items-center gap-2">
+            <i data-lucide="unlock" class="w-5 h-5"></i>
+            <span id="unlock-master-btn-text">Girar e Desbloquear o Cadeado Mestre</span>
+          </button>
+          <button id="btn-reset-mission" class="px-4 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 text-xs font-bold border border-slate-700 flex items-center gap-1.5">
+            <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+            <span id="reset-mission-text">Reiniciar Missão</span>
+          </button>
+        </div>
+
+        <!-- Banner de Vitória e Grande Reflexão em Turma -->
+        <div id="master-victory-banner" class="hidden mt-8 p-6 rounded-2xl bg-gradient-to-br from-emerald-950/60 to-indigo-950/60 border-2 border-emerald-400/80 shadow-2xl text-left space-y-4">
+          <div class="flex items-center gap-3">
+            <i data-lucide="trophy" class="w-8 h-8 text-amber-400"></i>
+            <h3 id="victory-title-text" class="text-xl font-black text-white">Torre da Diversidade Desbloqueada!</h3>
+          </div>
+          <p id="victory-msg-text" class="text-sm text-slate-200 leading-relaxed">
+            Parabéns, Agentes da Cidadania! As barreiras do preconceito foram superadas. O conhecimento e a empatia são a chave para uma escola onde todas as culturas e pessoas têm voz e dignidade.
+          </p>
+
+          <div class="p-4 rounded-xl bg-black/40 border border-amber-400/30 space-y-2">
+            <h4 id="reflection-title-text" class="text-xs font-bold uppercase tracking-wider text-amber-300">Grande Desafio de Reflexão em Turma:</h4>
+            <p id="reflection-question-text" class="text-base font-extrabold text-white">
+              «O que aprendemos hoje que podemos aplicar amanhã na nossa sala de aula para incluir alguém que se sinta de fora?»
+            </p>
+            <button id="btn-listen-reflection" class="mt-2 text-xs text-amber-300 font-bold flex items-center gap-1 hover:underline">
+              <i data-lucide="volume-2" class="w-3.5 h-3.5"></i>
+              <span id="listen-reflection-text">Ouvir Pergunta de Reflexão</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal do Glossário Multilíngue -->
+  <div id="modal-glossary" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 max-h-[85vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h3 id="glossary-modal-heading" class="font-extrabold text-white text-lg flex items-center gap-2">
+          <i data-lucide="languages" class="w-5 h-5 text-indigo-400"></i>
+          <span>Glossário de Cidadania</span>
+        </h3>
+        <button id="btn-close-glossary" class="p-1 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <div id="glossary-list" class="space-y-3">
+        <!-- Renderizado dinamicamente -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* =========================================================================
+       1. DICIONÁRIO DE TRADUÇÃO COMPLETO (PT, EN, FR, UK)
+       ========================================================================= */
+    const TRANSLATIONS = {
+      pt: {
+        langLabel: 'Português',
+        speechLang: 'pt-PT',
+        appTitle: 'O Enigma da Torre da Diversidade',
+        subtitle: 'Missão de Cidadania e Direitos Humanos • 2.º e 3.º Ciclos (DUA)',
+        navChallenges: 'Desafios',
+        navSuitcase: 'Mala das Culturas',
+        navVoices: 'Vozes da Escola',
+        navArtists: 'Artistas Inspiradores',
+        navMaster: 'Cadeado Mestre',
+        artistsTitle: 'Artistas Inspiradores pelo Mundo',
+        artistsDesc: 'Dez criadores de várias culturas que demonstraram que a diversidade funcional enriquece o património da humanidade.',
+        conditionLabel: 'Condição / Necessidade',
+        listenInstruction: 'Ouvir Guia',
+        stopSpeaking: 'A falar...',
+        soundFXTitle: 'Efeitos sonoros',
+        dyslexiaFontTitle: 'Modo Dislexia',
+        spacingTitle: 'Espaçamento',
+        rulerTitle: 'Régua de Leitura',
+        contrastTitle: 'Contraste',
+        noMotionTitle: 'Sem Animações',
+        glossaryBtn: 'Glossário',
+        speedLabel: 'Velocidade',
+        modeSwitchEasy: 'Modo Leitura Fácil (Opções)',
+        modeSwitchStandard: 'Modo Escrita Livre',
+        inputPlaceholder: 'Escreve aqui a tua resposta...',
+        verifyAnswer: 'Verificar Resposta',
+        codePlaceholder: 'Código...',
+        unlockChamber: 'Abrir Mini-Cofre',
+        chamberUnlocked: 'Câmara Concluída! Código revelado:',
+        viewInSuitcase: 'Ver artefacto na Mala',
+        hintLabel: 'Pedir Dica Pedagógica',
+        masterPadlockTitle: 'O Grande Cadeado Mestre da Torre',
+        masterPadlockDesc: 'Insere os 4 códigos numéricos desvendados em cada câmara para abrir as portas da Torre da Diversidade:',
+        unlockMasterBtn: 'Girar e Desbloquear o Cadeado Mestre',
+        resetProgress: 'Reiniciar Missão',
+        victoryTitle: 'Torre da Diversidade Desbloqueada!',
+        victoryMsg: 'Parabéns, Agentes da Cidadania! As barreiras do preconceito foram superadas. O conhecimento e a empatia são a chave para uma escola onde todas as culturas e pessoas têm voz e dignidade.',
+        reflectionTitle: 'Grande Desafio de Reflexão em Turma:',
+        reflectionQuestion: '«O que aprendemos hoje que podemos aplicar amanhã na nossa sala de aula para incluir alguém que se sinta de fora?»',
+        emptyVoices: 'Ainda não existem testemunhos partilhados. Sê o primeiro a gravar uma mensagem ou a partilhar um desenho!',
+        recordVoice: 'Gravar Voz',
+        stopRecord: 'Parar Gravação',
+        shareWork: 'Publicar Contributo',
+        authorPlaceholder: 'Nome / Turma / Autores',
+        titlePlaceholder: 'Título da mensagem ou objeto',
+        textPlaceholder: 'Descreve o teu testemunho ou tradição...',
+        listenStory: 'Ouvir História',
+        unlockedBadge: 'Desbloqueado',
+        lockedBadge: 'Bloqueado na Torre',
+        chamber: 'Câmara',
+        correctFeedback: 'Resposta correta! Pista lógica recolhida.',
+        incorrectFeedback: 'Tentativa incorreta. Consulta a dica abaixo!',
+        miniSafeTitle: 'Mini-Cofre da Câmara',
+        solveAllClues: 'Desvenda todas as pistas e insere o código lógico do cadeado',
+        suitcaseDesc: 'Cada objeto desbloqueado representa o património imaterial e o diálogo entre povos.',
+        objectsDiscovered: 'Objetos Descobertos',
+        contextLabel: 'Contexto',
+        symbolismLabel: 'Simbolismo',
+        originLabel: 'Origem',
+        lockObjMsg: 'Resolve o Desafio {num} na Torre para desbloquear a fotografia nítida, a ficha completa e a história deste artefacto.',
+        voicesDesc: 'Espaço de cocriação onde turmas e alunos partilham saudações nas suas línguas maternas, reflexões e desenhos.',
+        createNewVoice: 'Criar Novo Testemunho para a Galeria',
+        imageLoaded: 'Imagem Carregada ✓',
+        addImageBtn: 'Adicionar Foto/Desenho',
+        defaultContribTitle: 'Bandeira da Amizade',
+        defaultContribAuthor: 'Turma 6.º B • E.B. 2,3',
+        defaultContribText: 'Desenhámos uma árvore onde cada folha representa o país ou a língua de origem de um aluno da nossa escola. Somos 9 origens diferentes na mesma sala!',
+        defaultAnonymous: 'Anónimo / Agente da Cidadania',
+        defaultClassMessage: 'Testemunho da Turma',
+        today: 'Hoje'
+      },
+      en: {
+        langLabel: 'English',
+        speechLang: 'en-GB',
+        appTitle: 'The Enigma of Diversity Tower',
+        subtitle: 'Human Rights & Citizenship Mission • Universal Design for Learning',
+        navChallenges: 'Challenges',
+        navSuitcase: 'Cultures Suitcase',
+        navVoices: 'School Voices',
+        navArtists: 'Inspiring Artists',
+        navMaster: 'Master Lock',
+        artistsTitle: 'Inspiring Artists Worldwide',
+        artistsDesc: 'Ten creators across multiple cultures who showed that functional diversity enriches human heritage.',
+        conditionLabel: 'Condition / Special Need',
+        listenInstruction: 'Listen Guide',
+        stopSpeaking: 'Speaking...',
+        soundFXTitle: 'Sound effects',
+        dyslexiaFontTitle: 'Dyslexia Mode',
+        spacingTitle: 'Spacing',
+        rulerTitle: 'Reading Ruler',
+        contrastTitle: 'Contrast',
+        noMotionTitle: 'No Motion',
+        glossaryBtn: 'Glossary',
+        speedLabel: 'Speed',
+        modeSwitchEasy: 'Easy Reading Mode (Options)',
+        modeSwitchStandard: 'Free Writing Mode',
+        inputPlaceholder: 'Write your answer here...',
+        verifyAnswer: 'Check Answer',
+        codePlaceholder: 'Code...',
+        unlockChamber: 'Unlock Safe',
+        chamberUnlocked: 'Chamber Solved! Code revealed:',
+        viewInSuitcase: 'View item in Suitcase',
+        hintLabel: 'Show Educational Hint',
+        masterPadlockTitle: 'The Tower Master Padlock',
+        masterPadlockDesc: 'Enter the 4 numerical codes found in each chamber to unlock the doors of the Diversity Tower:',
+        unlockMasterBtn: 'Turn & Unlock Master Padlock',
+        resetProgress: 'Reset Mission',
+        victoryTitle: 'Diversity Tower Unlocked!',
+        victoryMsg: 'Congratulations, Agents of Citizenship! The walls of prejudice have been brought down. Empathy and human rights are the keys to a school where everyone belongs.',
+        reflectionTitle: 'Classroom Reflection Question:',
+        reflectionQuestion: '“What did we learn today that we can apply tomorrow in our classroom to include someone who feels left out?”',
+        emptyVoices: 'No shared student messages yet. Be the first to record an audio or share a drawing!',
+        recordVoice: 'Record Voice',
+        stopRecord: 'Stop Recording',
+        shareWork: 'Share Contribution',
+        authorPlaceholder: 'Name / Class / Authors',
+        titlePlaceholder: 'Title of message or object',
+        textPlaceholder: 'Describe your heritage, thoughts or tradition...',
+        listenStory: 'Listen Story',
+        unlockedBadge: 'Unlocked',
+        lockedBadge: 'Locked in Tower',
+        chamber: 'Chamber',
+        correctFeedback: 'Correct answer! Logical clue collected.',
+        incorrectFeedback: 'Incorrect attempt. Check the hint below!',
+        miniSafeTitle: 'Chamber Mini-Safe',
+        solveAllClues: 'Solve all clues and enter the padlock logical code',
+        suitcaseDesc: 'Each unlocked object represents intangible heritage and intercultural dialogue.',
+        objectsDiscovered: 'Objects Discovered',
+        contextLabel: 'Context',
+        symbolismLabel: 'Symbolism',
+        originLabel: 'Origin',
+        lockObjMsg: 'Solve Challenge {num} in the Tower to unlock the sharp photo, full file and story of this artifact.',
+        voicesDesc: 'Co-creation space where classes and students share greetings in their mother tongues, reflections and drawings.',
+        createNewVoice: 'Create New Contribution for the Gallery',
+        imageLoaded: 'Image Uploaded ✓',
+        addImageBtn: 'Add Photo/Drawing',
+        defaultContribTitle: 'Friendship Flag',
+        defaultContribAuthor: 'Class 6B • Middle School',
+        defaultContribText: 'We drew a tree where each leaf represents the country or native language of a student in our school. We have 9 different backgrounds in the same room!',
+        defaultAnonymous: 'Anonymous / Citizenship Agent',
+        defaultClassMessage: 'Class Message',
+        today: 'Today'
+      },
+      fr: {
+        langLabel: 'Français',
+        speechLang: 'fr-FR',
+        appTitle: 'L’Énigme de la Tour de la Diversité',
+        subtitle: 'Mission Citoyenneté et Droits Humains • CUA (Design Universel)',
+        navChallenges: 'Défis',
+        navSuitcase: 'Valise des Cultures',
+        navVoices: 'Voix de l’École',
+        navArtists: 'Artistes Inspirants',
+        navMaster: 'Cadenas Maître',
+        artistsTitle: 'Artistes Inspirants du Monde',
+        artistsDesc: 'Dix créateurs de différentes cultures qui ont prouvé que la diversité fonctionnelle enrichit l’humanité.',
+        conditionLabel: 'Condition / Besoin Spécifique',
+        listenInstruction: 'Écouter Guide',
+        stopSpeaking: 'En parole...',
+        soundFXTitle: 'Effets sonores',
+        dyslexiaFontTitle: 'Mode Dyslexie',
+        spacingTitle: 'Espacement',
+        rulerTitle: 'Règle de Lecture',
+        contrastTitle: 'Contraste',
+        noMotionTitle: 'Sans Animations',
+        glossaryBtn: 'Glossaire',
+        speedLabel: 'Vitesse',
+        modeSwitchEasy: 'Mode Lecture Facile (Options)',
+        modeSwitchStandard: 'Mode Écriture Libre',
+        inputPlaceholder: 'Écris ta réponse ici...',
+        verifyAnswer: 'Vérifier la réponse',
+        codePlaceholder: 'Code...',
+        unlockChamber: 'Ouvrir le coffre',
+        chamberUnlocked: 'Chambre résolue ! Code obtenu :',
+        viewInSuitcase: 'Voir l’objet dans la valise',
+        hintLabel: 'Afficher un indice',
+        masterPadlockTitle: 'Le Grand Cadenas Maître',
+        masterPadlockDesc: 'Saisis les 4 codes numériques découverts dans chaque chambre pour ouvrir la Tour de la Diversité :',
+        unlockMasterBtn: 'Déverrouiller le Cadenas Maître',
+        resetProgress: 'Réinitialiser',
+        victoryTitle: 'Tour de la Diversité Déverrouillée !',
+        victoryMsg: 'Félicitations, agents de la citoyenneté ! Les barrières des préjugés sont tombées. La dignité et le dialogue sont les clés de l’inclusion.',
+        reflectionTitle: 'Grande Question de Réflexion en Classe :',
+        reflectionQuestion: '« Qu’avons-nous appris aujourd’hui que nous pouvons appliquer demain dans notre classe pour inclure quelqu’un qui se sent isolé ? »',
+        emptyVoices: 'Aucun témoignage pour l’instant. Sois le premier à enregistrer un message vocal ou un dessin !',
+        recordVoice: 'Enregistrer',
+        stopRecord: 'Arrêter',
+        shareWork: 'Publier',
+        authorPlaceholder: 'Nom / Classe / Auteurs',
+        titlePlaceholder: 'Titre du message ou de l’objet',
+        textPlaceholder: 'Décris ton patrimoine ou ton témoignage...',
+        listenStory: 'Écouter l’histoire',
+        unlockedBadge: 'Débloqué',
+        lockedBadge: 'Verrouillé',
+        chamber: 'Chambre',
+        correctFeedback: 'Bonne réponse ! Indice logique recueilli.',
+        incorrectFeedback: 'Tentative incorrecte. Consulte l’indice ci-dessous !',
+        miniSafeTitle: 'Mini-Coffre de la Chambre',
+        solveAllClues: 'Résous tous les indices et saisis le code logique du cadenas',
+        suitcaseDesc: 'Chaque objet déverrouillé représente le patrimoine immatériel et le dialogue des cultures.',
+        objectsDiscovered: 'Objets Découverts',
+        contextLabel: 'Contexte',
+        symbolismLabel: 'Symbolisme',
+        originLabel: 'Origine',
+        lockObjMsg: 'Résous le Défi {num} dans la Tour pour débloquer la photo nette, la fiche complète et l’histoire.',
+        voicesDesc: 'Espace de cocréation où les classes et les élèves partagent des messages dans leur langue maternelle, des réflexions et des dessins.',
+        createNewVoice: 'Créer un Nouveau Témoignage pour la Galerie',
+        imageLoaded: 'Image Chargée ✓',
+        addImageBtn: 'Ajouter Photo/Dessin',
+        defaultContribTitle: 'Drapeau de l’Amitié',
+        defaultContribAuthor: 'Classe de 6e B • Collège',
+        defaultContribText: 'Nous avons dessiné un arbre où chaque feuille représente le pays ou la langue d’origine d’un élève de notre école. Nous avons 9 origines différentes dans la même classe !',
+        defaultAnonymous: 'Anonyme / Agent de la Citoyenneté',
+        defaultClassMessage: 'Message de la Classe',
+        today: 'Aujourd’hui'
+      },
+      uk: {
+        langLabel: 'Українська',
+        speechLang: 'uk-UA',
+        appTitle: 'Загадка Вежі Різноманіття',
+        subtitle: 'Місія громадянськості та прав людини • Універсальний дизайн навчання',
+        navChallenges: 'Випробування',
+        navSuitcase: 'Валіза Культур',
+        navVoices: 'Голоси Школи',
+        navArtists: 'Натхненні Митці',
+        navMaster: 'Головний Замок',
+        artistsTitle: 'Натхненні митці з усього світу',
+        artistsDesc: 'Десять творців із різних культур, які довели, що особливі потреби та різноманіття збагачують людство.',
+        conditionLabel: 'Стан / Особлива потреба',
+        listenInstruction: 'Слухати',
+        stopSpeaking: 'Говорить...',
+        soundFXTitle: 'Звуки',
+        dyslexiaFontTitle: 'Шрифт для дислексії',
+        spacingTitle: 'Інтервал',
+        rulerTitle: 'Лінійка для читання',
+        contrastTitle: 'Контраст',
+        noMotionTitle: 'Без анімацій',
+        glossaryBtn: 'Словник',
+        speedLabel: 'Швидкість',
+        modeSwitchEasy: 'Легке читання (Варіанти)',
+        modeSwitchStandard: 'Вільний ввід',
+        inputPlaceholder: 'Напишіть відповідь тут...',
+        verifyAnswer: 'Перевірити',
+        codePlaceholder: 'Код...',
+        unlockChamber: 'Відкрити міні-сейф',
+        chamberUnlocked: 'Кімнату пройдено! Отримано код:',
+        viewInSuitcase: 'Переглянути у валізі',
+        hintLabel: 'Підказка',
+        masterPadlockTitle: 'Головний замок Вежі Різноманіття',
+        masterPadlockDesc: 'Введіть 4 коди з кожної кімнати, щоб відчинити двері Вежі Різноманіття:',
+        unlockMasterBtn: 'Відчинити Головний Замок',
+        resetProgress: 'Почати спочатку',
+        victoryTitle: 'Вежу Різноманіття відчинено!',
+        victoryMsg: 'Вітаємо, агенти громадянськості! Бар’єри упереджень подолано. Співпереживання, гідність та діалог — ключ до школи, де кожен відчуває себе прийнятим.',
+        reflectionTitle: 'Питання для спільного обговорення в класі:',
+        reflectionQuestion: '«Чого ми сьогодні навчилися, що зможемо застосувати завтра у класі, щоб підтримати того, хто почувається самотньо?»',
+        emptyVoices: 'Поки немає збережених історій. Будьте першими, хто запише голос чи додасть малюнок!',
+        recordVoice: 'Записати голос',
+        stopRecord: 'Зупинити',
+        shareWork: 'Опублікувати',
+        authorPlaceholder: 'Ім’я / Клас / Автори',
+        titlePlaceholder: 'Назва повідомлення чи об’єкта',
+        textPlaceholder: 'Опишіть вашу історію чи культуру...',
+        listenStory: 'Слухати історію',
+        unlockedBadge: 'Розблоковано',
+        lockedBadge: 'Заблоковано',
+        chamber: 'Кімната',
+        correctFeedback: 'Правильна відповідь! Логічну підказку отримано.',
+        incorrectFeedback: 'Неправильна відповідь. Перегляньте підказку нижче!',
+        miniSafeTitle: 'Міні-сейф кімнати',
+        solveAllClues: 'Розгадайте всі підказки та введіть логічний код замка',
+        suitcaseDesc: 'Кожен розблокований об’єкт уособлює нематеріальну спадщину та міжкультурний діалог.',
+        objectsDiscovered: 'Відкритих об’єктів',
+        contextLabel: 'Контекст',
+        symbolismLabel: 'Символізм',
+        originLabel: 'Походження',
+        lockObjMsg: 'Пройдіть Випробування {num} у Вежі, щоб відкрити чітке фото, повний опис та історію цього предмета.',
+        voicesDesc: 'Простір спільної творчості, де класи та учні діляться привітаннями рідними мовами, роздумами та малюнками.',
+        createNewVoice: 'Створити новий допис для галереї',
+        imageLoaded: 'Зображення завантажено ✓',
+        addImageBtn: 'Додати фото/малюнок',
+        defaultContribTitle: 'Прапор Дружби',
+        defaultContribAuthor: '6-Б клас • Школа',
+        defaultContribText: 'Ми намалювали дерево, де кожен листочок символізує країну або рідну мову учня нашої школи. У нашому класі 9 різних культур!',
+        defaultAnonymous: 'Анонім / Агент громадянськості',
+        defaultClassMessage: 'Повідомлення класу',
+        today: 'Сьогодні'
+      }
+    };
+
+    const CHALLENGES_DATA = [
+      {
+        id: 0,
+        title: {
+          pt: 'Desafio 1: O Cofre da Identidade e Cultura',
+          en: 'Challenge 1: The Vault of Identity and Culture',
+          fr: 'Défi 1 : Le Coffre de l’Identité et de la Culture',
+          uk: 'Випробування 1: Сейф ідентичності та культури'
+        },
+        code: '3',
+        logicExplanation: {
+          pt: 'Contagem das 3 grandes palavras-chave essenciais encontradas nesta câmara: 1 + 1 + 1 = 3.',
+          en: 'Count of the 3 essential keywords unlocked in this chamber: 1 + 1 + 1 = 3.',
+          fr: 'Comptage des 3 mots-clés essentiels trouvés dans cette chambre : 1 + 1 + 1 = 3.',
+          uk: 'Підрахунок 3 ключових понять, знайдених у цій кімнаті: 1 + 1 + 1 = 3.'
+        },
+        rewardKey: 0,
+        questions: [
+          {
+            id: 'q1_1',
+            text: {
+              pt: 'A cultura tem um carácter estático (imutável) ou dinâmico (em constante transformação)?',
+              en: 'Does culture have a static (unchanging) or dynamic (constantly evolving) nature?',
+              fr: 'La culture a-t-elle un caractère statique (immuable) ou dynamique (en constante évolution) ?',
+              uk: 'Культура є статичною (незмінною) чи динамічною (постійно змінюється)?'
+            },
+            correctAnswers: ['dinamico', 'dinâmico', 'dynamic', 'dynamique', 'динамічний', 'динамічна'],
+            options: {
+              pt: ['Estático', 'Dinâmico', 'Neutro', 'Imóvel'],
+              en: ['Static', 'Dynamic', 'Neutral', 'Stationary'],
+              fr: ['Statique', 'Dynamique', 'Neutre', 'Immuable'],
+              uk: ['Статична', 'Динамічна', 'Нейтральна', 'Незмінна']
+            },
+            correctOptionIndex: 1,
+            hint: {
+              pt: 'Pensa em como a língua, a música e os costumes mudam ao longo do tempo.',
+              en: 'Think about how language, music and customs evolve across generations.',
+              fr: 'Pense à la manière dont la langue, la musique et les traditions évoluent.',
+              uk: 'Подумайте, як мова, музика та традиції змінюються з часом.'
+            }
+          },
+          {
+            id: 'q1_2',
+            text: {
+              pt: 'Que fenómeno atual pode levar à homogeneização cultural, mas também à fragmentação e diferenciação?',
+              en: 'What modern phenomenon can lead to cultural homogenization, but also to fragmentation and differentiation?',
+              fr: 'Quel phénomène contemporain peut mener à l’homogénéisation culturelle, mais aussi à la différenciation ?',
+              uk: 'Яке сучасне явище може вести до культурної однорідності, але водночас до диференціації?'
+            },
+            correctAnswers: ['globalizacao', 'globalização', 'globalization', 'globalisation', 'глобалізація'],
+            options: {
+              pt: ['Isolacionismo', 'Globalização', 'Feudalismo', 'Sedentarismo'],
+              en: ['Isolationism', 'Globalization', 'Feudalism', 'Sedentariness'],
+              fr: ['Isolationnisme', 'Globalisation', 'Féodalisme', 'Sédentarité'],
+              uk: ['Ізоляціонізм', 'Глобалізація', 'Феодалізм', 'Осілість']
+            },
+            correctOptionIndex: 1,
+            hint: {
+              pt: 'Começa por "G" e refere-se à ligação mundial de economias, culturas e comunicações.',
+              en: 'Starts with "G" and refers to the interconnectedness of world societies and communications.',
+              fr: 'Commence par "G" et désigne l’interconnexion mondiale.',
+              uk: 'Починається на літеру "Г" і стосується всесвітнього зв’язку людей та ідей.'
+            }
+          },
+          {
+            id: 'q1_3',
+            text: {
+              pt: 'O que devemos valorizar em cada ser humano como parte integrante da sua identidade e pertença?',
+              en: 'What must we value in every human being as an integral part of their identity and belonging?',
+              fr: 'Que devons-nous valoriser chez chaque être humain comme partie intégrante de son identité et de sa dignité ?',
+              uk: 'Що ми повинні цінувати в кожній людині як невід’ємну частину її ідентичності та гідності?'
+            },
+            correctAnswers: ['a individualidade e a dignidade', 'individualidade e dignidade', 'dignidade', 'dignity and individuality', 'individuality and dignity', 'individualite et dignite', 'індивідуальність і гідність', 'гідність'],
+            options: {
+              pt: ['A individualidade e a dignidade', 'A riqueza material', 'A opinião da maioria', 'A uniformidade'],
+              en: ['Individuality and dignity', 'Material wealth', 'Majority opinion', 'Uniformity'],
+              fr: ['L’individualité et la dignité', 'La richesse matérielle', 'L’opinion de la majorité', 'L’uniformité'],
+              uk: ['Індивідуальність і гідність', 'Матеріальне багатство', 'Думку більшості', 'Одноманітність']
+            },
+            correctOptionIndex: 0,
+            hint: {
+              pt: 'Diz respeito ao valor único e respeito intrínseco de cada pessoa.',
+              en: 'It relates to the unique human worth and intrinsic respect owed to every person.',
+              fr: 'Concerne la valeur unique et le respect intrinsèque de chaque individu.',
+              uk: 'Стосується унікальної цінності та поваги до кожної особистості.'
+            }
+          }
+        ]
+      },
+      {
+        id: 1,
+        title: {
+          pt: 'Desafio 2: O Código dos Direitos',
+          en: 'Challenge 2: The Rights Cipher',
+          fr: 'Défi 2 : Le Code des Droits',
+          uk: 'Випробування 2: Код Прав Людини'
+        },
+        code: '48',
+        logicExplanation: {
+          pt: 'Primeira letra de cada pilar (U=21, I=9, I=9, I=9) -> 21 + 9 + 9 + 9 = 48.',
+          en: 'First letters of core pillars (U=21, I=9, I=9, I=9) -> 21 + 9 + 9 + 9 = 48.',
+          fr: 'Première lettre des piliers (U=21, I=9, I=9, I=9) -> 21 + 9 + 9 + 9 = 48.',
+          uk: 'Перші літери принципів (U=21, I=9, I=9, I=9) -> 21 + 9 + 9 + 9 = 48.'
+        },
+        rewardKey: 1,
+        questions: [
+          {
+            id: 'q2_1',
+            text: {
+              pt: 'Além de Universalidade e Inalienabilidade, que duas características essenciais completam os Direitos Humanos?',
+              en: 'Besides Universality and Inalienability, which two core qualities complete Human Rights?',
+              fr: 'En plus de l’Universalité et de l’Inaliénabilité, quelles sont les deux caractéristiques indissociables des Droits Humains ?',
+              uk: 'Окрім універсальності та невідчужуваності, які дві характеристики доповнюють права людини?'
+            },
+            correctAnswers: ['indivisibilidade e interdependencia', 'indivisibilidade e interdependência', 'indivisibility and interdependence', 'indivisibilite et interdependance', 'неподільність і взаємозалежність'],
+            options: {
+              pt: ['Indivisibilidade e Interdependência', 'Opcionalidade e Temporariedade', 'Exclusividade e Competição', 'Subordinação e Limitação'],
+              en: ['Indivisibility and Interdependence', 'Optionality and Temporariness', 'Exclusivity and Competition', 'Subordination and Limitation'],
+              fr: ['Indivisibilité et Interdépendance', 'Caractère optionnel et Temporaire', 'Exclusivité et Compétition', 'Subordination et Limitation'],
+              uk: ['Неподільність і взаємозалежність', 'Опціональність і тимчасовість', 'Ексклюзивність', 'Підпорядкованість']
+            },
+            correctOptionIndex: 0,
+            hint: {
+              pt: 'Significa que não se podem separar ou escolher apenas alguns direitos, pois todos se apoiam uns nos outros.',
+              en: 'It means rights cannot be divided or cherry-picked; they rely on each other.',
+              fr: 'Cela signifie que les droits ne peuvent pas être séparés et se renforcent mutuellement.',
+              uk: 'Це означає, що права не можна розділити, і вони залежать одне від одного.'
+            }
+          },
+          {
+            id: 'q2_2',
+            text: {
+              pt: 'Qual é o princípio fundamental e inviolável associado à igualdade e responsabilidade de cada indivíduo?',
+              en: 'What is the fundamental and inviolable principle associated with equality and responsibility for every person?',
+              fr: 'Quel est le principe fondamental et inviolable associé à l’égalité et à la responsabilité de chaque individu ?',
+              uk: 'Який основоположний і непорушний принцип пов’язаний з рівністю та гідністю кожної людини?'
+            },
+            correctAnswers: ['dignidade da pessoa humana', 'dignidade humana', 'dignidade', 'human dignity', 'dignite de la personne humaine', 'гідність людської особистості', 'гідність'],
+            options: {
+              pt: ['Dignidade da pessoa humana', 'Popularidade nas redes sociais', 'Nacionalidade de nascimento', 'Sucesso financeiro'],
+              en: ['Human dignity', 'Social media popularity', 'Birth nationality', 'Financial success'],
+              fr: ['Dignité de la personne humaine', 'Popularité sur les réseaux', 'Nationalité de naissance', 'Succès financier'],
+              uk: ['Гідність людської особистості', 'Популярність у соцмережах', 'Національність за народженням', 'Фінансовий успіх']
+            },
+            correctOptionIndex: 0,
+            hint: {
+              pt: 'É a base do Artigo 1.º da Declaração Universal dos Direitos Humanos: "Todos os seres humanos nascem livres e iguais em..."',
+              en: 'It is the core of Article 1 of the Universal Declaration: "All human beings are born free and equal in..."',
+              fr: 'C’est le socle de l’article 1er de la Déclaration Universelle : "Tous les êtres humains naissent libres et égaux en..."',
+              uk: 'Основа Статті 1 Загальної декларації прав людини: "Всі люди народжуються вільними і рівними у своїй..."'
+            }
+          }
+        ]
+      },
+      {
+        id: 2,
+        title: {
+          pt: 'Desafio 3: O Filtro da Discriminação',
+          en: 'Challenge 3: The Discrimination Filter',
+          fr: 'Défi 3 : Le Filtre de la Discrimination',
+          uk: 'Випробування 3: Фільтр проти дискримінації'
+        },
+        code: '33',
+        logicExplanation: {
+          pt: 'Contagem das letras dos 3 conceitos desvendados: XENOFOBIA (9) + ANTICIGANISMO (13) + ISLAMOFOBIA (11) = 33.',
+          en: 'Sum of letters from the 3 concepts unlocked: XENOFOBIA (9) + ANTICIGANISMO (13) + ISLAMOFOBIA (11) = 33.',
+          fr: 'Somme des lettres des 3 concepts clés : XENOFOBIA (9) + ANTICIGANISMO (13) + ISLAMOFOBIA (11) = 33.',
+          uk: 'Сума символів трьох понять у шифрі кімнати: 9 + 13 + 11 = 33.'
+        },
+        rewardKey: 2,
+        questions: [
+          {
+            id: 'q3_1',
+            text: {
+              pt: 'Qual é o termo específico para o preconceito, hostilidade ou medo injustificado em relação a estrangeiros?',
+              en: 'What is the specific term for hostility, prejudice or unjustified fear towards foreigners?',
+              fr: 'Quel est le terme désignant l’hostilité ou la peur irrationnelle envers les étrangers ?',
+              uk: 'Як називається упередження, ворожість або страх щодо іноземців?'
+            },
+            correctAnswers: ['xenofobia', 'xenophobia', 'xénophobie', 'ксенофобія'],
+            options: {
+              pt: ['Xenofobia', 'Empatia', 'Filantropia', 'Multiculturalismo'],
+              en: ['Xenophobia', 'Empathy', 'Philanthropy', 'Multiculturalism'],
+              fr: ['Xénophobie', 'Empathie', 'Philanthropie', 'Multiculturalisme'],
+              uk: ['Ксенофобія', 'Емпатія', 'Філантропія', 'Мультикультуралізм']
+            },
+            correctOptionIndex: 0,
+            hint: {
+              pt: 'Tem origem nas palavras gregas xenos (estranho/estrangeiro) e phobos (medo).',
+              en: 'Originates from the Greek words xenos (foreigner) and phobos (fear).',
+              fr: 'Provient du grec xenos (étranger) et phobos (peur).',
+              uk: 'Походить від грецьких слів xenos (чужинець) та phobos (страх).'
+            }
+          },
+          {
+            id: 'q3_2',
+            text: {
+              pt: 'Como se designa a forma específica de racismo e discriminação contra pessoas de etnia cigana (comunidades Romani)?',
+              en: 'What is the specific term for discrimination and racism against Romani people?',
+              fr: 'Comment s’appelle la discrimination et le racisme ciblant les personnes d’ethnie rom/tsigane ?',
+              uk: 'Як називається дискримінація та упередження проти представників ромського народу?'
+            },
+            correctAnswers: ['anticiganismo', 'antigypsyism', 'antitziganisme', 'антициганізм'],
+            options: {
+              pt: ['Anticiganismo', 'Etnocentrismo', 'Solidariedade', 'Altruísmo'],
+              en: ['Antigypsyism', 'Ethnocentrism', 'Solidarity', 'Altruism'],
+              fr: ['Antitziganisme', 'Ethnocentrisme', 'Solidarité', 'Altruisme'],
+              uk: ['Антициганізм', 'Етноцентризм', 'Солідарність', 'Альтруїзм']
+            },
+            correctOptionIndex: 0,
+            hint: {
+              pt: 'Combina o prefixo "anti-" com a designação histórica da comunidade cigana.',
+              en: 'A recognized form of prejudice targeted directly at Romani history and rights.',
+              fr: 'Désigne les préjugés et persécutions spécifiques vécus par les Roms.',
+              uk: 'Термін, що позначає дискримінацію ромів у суспільстві.'
+            }
+          },
+          {
+            id: 'q3_3',
+            text: {
+              pt: 'Qual é o termo para a discriminação, aversão ou preconceito contra pessoas de religião muçulmana?',
+              en: 'What is the term for discrimination, hatred or prejudice directed against Muslim people?',
+              fr: 'Quel est le terme désignant l’aversion, la haine ou la discrimination envers les personnes musulmanes ?',
+              uk: 'Як називається дискримінація та упередження проти людей мусульманського віросповідання?'
+            },
+            correctAnswers: ['islamofobia', 'islamophobia', 'islamophobie', 'ісламофобія'],
+            options: {
+              pt: ['Islamofobia', 'Laicidade', 'Ecumenismo', 'Tolerância'],
+              en: ['Islamophobia', 'Secularism', 'Ecumenism', 'Tolerance'],
+              fr: ['Islamophobie', 'Laïcité', 'Œcuménisme', 'Tolérance'],
+              uk: ['Ісламофобія', 'Секуляризм', 'Екуменізм', 'Толерантність']
+            },
+            correctOptionIndex: 0,
+            hint: {
+              pt: 'Combina a religião "Islão" com o sufixo "-fobia".',
+              en: 'Combines the religion "Islam" with "-phobia".',
+              fr: 'Combine "Islam" et le suffixe "-phobie".',
+              uk: 'Слово поєднує назву релігії та закінчення "-фобія".'
+            }
+          }
+        ]
+      },
+      {
+        id: 3,
+        title: {
+          pt: 'Desafio 4: A Chave da Inclusão',
+          en: 'Challenge 4: The Key to Inclusion',
+          fr: 'Défi 4 : La Clé de l’Inclusion',
+          uk: 'Випробування 4: Ключ до Інклюзії'
+        },
+        code: '7',
+        logicExplanation: {
+          pt: 'Código de substituição de ouro: a palavra "DIÁLOGO" contém 7 letras mágicas -> Código: 7.',
+          en: 'Golden substitution code: the word "DIALOGUE" has 7 letters in PT key -> Code: 7.',
+          fr: 'Code de substitution : le mot clé "DIÁLOGO" a 7 lettres -> Code : 7.',
+          uk: 'Магічний код кімнати: слово "DIÁLOGO" складається з 7 літер -> Код: 7.'
+        },
+        rewardKey: 3,
+        questions: [
+          {
+            id: 'q4_1',
+            text: {
+              pt: 'O que é essencial e insubstituível para a coesão pacífica em sociedades culturalmente diversas?',
+              en: 'What is essential and irreplaceable for peaceful cohesion in culturally diverse societies?',
+              fr: 'Qu’est-ce qui est essentiel pour la cohésion pacifique dans des sociétés culturellement diverses ?',
+              uk: 'Що є незамінним для мирного співіснування в культурно різноманітному суспільстві?'
+            },
+            correctAnswers: ['o dialogo intercultural e o pluralismo', 'dialogo intercultural', 'dialogo intercultural e o pluralismo', 'intercultural dialogue and pluralism', 'dialogue interculturel', 'міжкультурний діалог'],
+            options: {
+              pt: ['O diálogo intercultural e o pluralismo', 'A imposição de uma única cultura', 'A segregação em bairros separados', 'O silêncio sobre as diferenças'],
+              en: ['Intercultural dialogue and pluralism', 'Imposing a single culture', 'Segregation into separate neighborhoods', 'Silence about differences'],
+              fr: ['Le dialogue interculturel et le pluralisme', 'L’imposition d’une culture unique', 'La ségrégation en quartiers séparés', 'Le déni des différences'],
+              uk: ['Міжкультурний діалог і плюралізм', 'Нав’язування однієї культури', 'Сегрегація', 'Замовчування відмінностей']
+            },
+            correctOptionIndex: 0,
+            hint: {
+              pt: 'Baseia-se em escutar ativamente, trocar perspetivas e respeitar as várias vozes da sociedade.',
+              en: 'Based on actively listening, sharing perspectives and respecting different voices.',
+              fr: 'Repose sur l’écoute active, le respect mutuel et la diversité des voix.',
+              uk: 'Ґрунтується на активному слуханні, повазі та визнанні різних думок.'
+            }
+          },
+          {
+            id: 'q4_2',
+            text: {
+              pt: 'Quais são os principais desafios vivenciados com frequência por pessoas migrantes e refugiadas?',
+              en: 'What are the major challenges frequently faced by migrants and refugees?',
+              fr: 'Quels sont les défis majeurs fréquemment vécus par les personnes migrantes et réfugiées ?',
+              uk: 'З якими основними труднощами часто стикаються мігранти та біженці?'
+            },
+            correctAnswers: ['discriminacao exclusao e injustica social', 'discriminação, exclusão e injustiça social', 'discriminacao', 'discrimination and social injustice', 'discrimination exclusion et injustice', 'дискримінація та ізоляція'],
+            options: {
+              pt: ['Discriminação, exclusão e injustiça social', 'Acesso automático a privilégios ilimitados', 'Ausência de barreira linguística', 'Garantia imediata de estabilidade'],
+              en: ['Discrimination, exclusion and social injustice', 'Automatic access to unlimited privileges', 'No language barriers', 'Immediate absolute stability'],
+              fr: ['Discrimination, exclusion et injustice sociale', 'Accès immédiat à des privilèges illimités', 'Absence totale de barrière linguistique', 'Stabilité financière garantie'],
+              uk: ['Дискримінація, відчуження та соціальна несправедливість', 'Автоматичні привілеї', 'Відсутність мовного бар’єру', 'Миттєва стабільність']
+            },
+            correctOptionIndex: 0,
+            hint: {
+              pt: 'Envolve dificuldades na integração, barreiras económicas, linguísticas e atitudes de preconceito.',
+              en: 'Refers to integration barriers, prejudice and unfair social obstacles.',
+              fr: 'Comprend les préjugés, les barrières administratives et le manque d’égalité des chances.',
+              uk: 'Включає бар’єри адаптації, упередження та несправедливе ставлення.'
+            }
+          },
+          {
+            id: 'q4_3',
+            text: {
+              pt: 'Qual é a proposta da escola e da sociedade civil para combater a exclusão e a injustiça social?',
+              en: 'What is the proactive path proposed by schools and civil society to overcome exclusion and injustice?',
+              fr: 'Quelle est la démarche préconisée par l’école pour combattre l’exclusion et l’injustice sociale ?',
+              uk: 'Який дієвий підхід пропонують школа та суспільство для подолання несправедливості?'
+            },
+            correctAnswers: ['acoes de prevencao e combate', 'ações de prevenção e combate', 'prevencao e combate', 'prevention and action', 'actions de prevention et combat', 'дії з профілактики та підтримки'],
+            options: {
+              pt: ['Ações de prevenção e combate', 'Ignorar o problema até desaparecer', 'Castigar quem faz perguntas', 'Dividir a turma por notas'],
+              en: ['Preventive actions and active support', 'Ignoring the issue until it goes away', 'Punishing those who ask questions', 'Dividing the class by test scores'],
+              fr: ['Actions de prévention et de lutte active', 'Ignorer le problème en espérant qu’il disparaisse', 'Punir la curiosité', 'Séparer les élèves selon leurs notes'],
+              uk: ['Заходи профілактики та активної підтримки', 'Ігнорування проблеми', 'Покарання за запитання', 'Поділ учнів за оцінками']
+            },
+            correctOptionIndex: 0,
+            hint: {
+              pt: 'Passa por educar para a cidadania, criar projetos solidários e intervir antes do bullying.',
+              en: 'Focuses on human rights education, solidarity and stepping in before discrimination escalates.',
+              fr: 'Passe par la sensibilisation citoyenne, la solidarité et l’intervention bienveillante.',
+              uk: 'Передбачає просвіту, солідарність та підтримку до виникнення цькування.'
+            }
+          }
+        ]
+      }
+    ];
+
+    const CULTURAL_OBJECTS = [
+      {
+        id: 0,
+        title: {
+          pt: 'Lenço dos Namorados',
+          en: 'Lovers’ Embroidered Handkerchief',
+          fr: 'Mouchoir des Amoureux (Lenço dos Namorados)',
+          uk: 'Хустинка Закоханих (Lenço dos Namorados)'
+        },
+        origin: {
+          pt: 'Portugal (Região do Minho)',
+          en: 'Portugal (Minho Region)',
+          fr: 'Portugal (Région du Minho)',
+          uk: 'Португалія (Регіон Мінью)'
+        },
+        context: {
+          pt: 'Bordado tradicional em linho com versos de afeto, símbolos e cores vivas, criado historicamente por jovens.',
+          en: 'Traditional linen embroidery stitched with verses of affection, symbols and vibrant colors.',
+          fr: 'Broderie traditionnelle en lin portant des vers d’affection et des symboles colorés.',
+          uk: 'Традиційна вишивка на полотні з теплими словами, символами та яскравими кольорами.'
+        },
+        symbolism: {
+          pt: 'Simboliza a comunicação, a liberdade de expressão dos sentimentos, o património imaterial e o diálogo entre gerações.',
+          en: 'Symbolizes interpersonal communication, freedom of affection, intangible cultural heritage and dialogue between generations.',
+          fr: 'Symbolise la communication bienveillante, l’expression des sentiments et le patrimoine immatériel partagé.',
+          uk: 'Символізує щире спілкування, свободу вираження почуттів і культурну спадщину поколінь.'
+        },
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Lenco_dos_namorados.jpg/800px-Lenco_dos_namorados.jpg',
+        iconBg: 'from-rose-500 to-amber-500'
+      },
+      {
+        id: 1,
+        title: {
+          pt: 'Pano de Pente / Capulana',
+          en: 'Pano de Pente / Capulana',
+          fr: 'Pano de Pente / Capulana',
+          uk: 'Пано де Пенте / Капулана'
+        },
+        origin: {
+          pt: 'Cabo Verde / Moçambique / Comunidades Lusófonas',
+          en: 'Cape Verde / Mozambique / Lusophone African heritage',
+          fr: 'Cap-Vert / Mozambique / Espaces lusophones africains',
+          uk: 'Кабо-Верде / Мозамбік / Культура португаломовних країн'
+        },
+        context: {
+          pt: 'Tecido têxtil de faixas com padrões geométricos únicos, usado em celebrações, transporte de crianças e rituais comunitários.',
+          en: 'Woven fabric strips with rich geometric patterns, worn during family celebrations and used for carrying children.',
+          fr: 'Tissu traditionnel aux motifs géométriques vibrants, utilisé pour les célébrations et le portage des enfants.',
+          uk: 'Тканина з унікальними геометричними візерунками, яку використовують під час свят та носіння дітей.'
+        },
+        symbolism: {
+          pt: 'Representa a identidade, a dignidade das mulheres, a resistência histórica e a transmissão de saberes ancestrais.',
+          en: 'Represents identity, women’s dignity, historical resilience and the oral transmission of ancestral wisdom.',
+          fr: 'Représente l’identité, la dignité des femmes, la résilience et la mémoire vivante.',
+          uk: 'Символізує гідність жінок, стійкість, захист сім’ї та збереження мудрості предків.'
+        },
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Mixed_capulanas_%286349274713%29.jpg/800px-Mixed_capulanas_%286349274713%29.jpg',
+        iconBg: 'from-amber-500 to-emerald-600'
+      },
+      {
+        id: 2,
+        title: {
+          pt: 'Roda Romani (Chakra)',
+          en: 'Romani Wheel (Chakra)',
+          fr: 'Roue Romani (Chakra)',
+          uk: 'Ромське Колесо (Чакра)'
+        },
+        origin: {
+          pt: 'Cultura Cigana / Povo Romani (Global)',
+          en: 'Romani Culture & People (Global diaspora)',
+          fr: 'Culture Tsigane / Peuple Romani (Monde)',
+          uk: 'Ромська культура (Всесвітня спільнота)'
+        },
+        context: {
+          pt: 'A roda vermelha de 16 raios é o símbolo central da bandeira Romani adotada no 1.º Congresso Mundial Cigano em Londres (1971).',
+          en: 'The 16-spoke red wheel is the central emblem of the international Romani flag adopted in London (1971).',
+          fr: 'La roue rouge à 16 rayons est l’emblème du drapeau international rom adopté à Londres en 1971.',
+          uk: 'Червоне колесо з 16 спицями — символ міжнародного ромського прапора, затвердженого в Лондоні (1971).'
+        },
+        symbolism: {
+          pt: 'Simboliza o movimento contínuo, a liberdade, a viagem histórica, o respeito pela natureza e a ligação com as origens na Índia.',
+          en: 'Symbolizes perpetual motion, freedom, historical journey, deep respect for nature and historical origins in India.',
+          fr: 'Symbolise le voyage, la liberté, la dignité et la mémoire des chemins parcourus.',
+          uk: 'Символізує свободу, рух уперед, зв’язок із природою та повагу до історичного шляху.'
+        },
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Flag_of_the_Romani_people.svg/800px-Flag_of_the_Romani_people.svg.png',
+        iconBg: 'from-blue-600 to-emerald-500'
+      },
+      {
+        id: 3,
+        title: {
+          pt: 'Talismã Nazar / Lanterna de Papel',
+          en: 'Nazar Amulet & Paper Lantern',
+          fr: 'Amulette Nazar & Lanterne de Papier',
+          uk: 'Оберіг Назар та Паперовий Ліхтарик'
+        },
+        origin: {
+          pt: 'Mediterrâneo Oriental, Médio Oriente e Ásia',
+          en: 'Eastern Mediterranean, Middle East & Asian cultures',
+          fr: 'Méditerranée orientale, Moyen-Orient et Asie',
+          uk: 'Східне Середземномор’я, Близький Схід та Азія'
+        },
+        context: {
+          pt: 'Objetos presentes nos lares para acolhimento de visitantes, celebração do ano novo e votos de harmonia e proteção.',
+          en: 'Traditional household artifacts welcoming visitors, celebrating festivities and wishing harmony and peace.',
+          fr: 'Objets du quotidien suspendus pour accueillir les invités, célébrer la lumière et souhaiter la paix.',
+          uk: 'Предмети затишку, які вішають у домівках для зустрічі гостей, свята та побажання миру й добра.'
+        },
+        symbolism: {
+          pt: 'Simboliza a proteção mútua, a hospitalidade, a iluminação do conhecimento e a celebração da diversidade humana.',
+          en: 'Symbolizes mutual protection, hospitality, the light of knowledge and the celebration of human diversity.',
+          fr: 'Symbolise l’hospitalité, la lumière de la connaissance et la célébration des différences.',
+          uk: 'Символізує гостинність, світло пізнання, захист від зла та дружбу народів.'
+        },
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Turecko_Nazar_amulet_%2824%29.jpg/800px-Turecko_Nazar_amulet_%2824%29.jpg',
+        iconBg: 'from-indigo-600 to-purple-600'
+      }
+    ];
+
+    const GLOSSARY_TERMS = [
+      {
+        term: { pt: 'Cidadania', en: 'Citizenship', fr: 'Citoyenneté', uk: 'Громадянськість' },
+        desc: {
+          pt: 'Conjunto de direitos e deveres que permitem a uma pessoa participar ativamente nas decisões da sua comunidade com responsabilidade.',
+          en: 'The set of rights and responsibilities that allow a person to participate in community life with mutual respect.',
+          fr: 'Ensemble des droits et devoirs permettant de participer activement et équitablement à la vie démocratique.',
+          uk: 'Сукупність прав та обов’язків, які дозволяють людині брати активну участь у житті суспільства.'
+        }
+      },
+      {
+        term: { pt: 'Interculturalidade', en: 'Interculturality', fr: 'Interculturalité', uk: 'Міжкультурність' },
+        desc: {
+          pt: 'Relação de respeito e diálogo recíproco entre pessoas de diferentes origens culturais, promovendo a aprendizagem mútua.',
+          en: 'A relationship of deep respect and reciprocal dialogue between cultures, fostering mutual learning and inclusion.',
+          fr: 'Relation de respect et d’échange équitable entre différentes cultures au sein d’une mesma société.',
+          uk: 'Взаємоповага та рівноправний діалог між різними культурами, спрямований на спільний розвиток.'
+        }
+      },
+      {
+        term: { pt: 'Inalienabilidade', en: 'Inalienability', fr: 'Inaliénabilité', uk: 'Невідчужуваність' },
+        desc: {
+          pt: 'Qualidade do que não pode ser retirado, vendido ou cedido. Os Direitos Humanos pertencem a cada pessoa desde o nascimento.',
+          en: 'The quality of rights that cannot be surrendered, taken away or sold. They inherently belong to every person.',
+          fr: 'Propriété de ce qui ne peut être enlevé ou transféré. Les droits humains appartiennent à chacun dès la naissance.',
+          uk: 'Властивість прав, які не можуть бути відібрані або передані іншій особі.'
+        }
+      },
+      {
+        term: { pt: 'Xenofobia', en: 'Xenophobia', fr: 'Xénophobie', uk: 'Ксенофобія' },
+        desc: {
+          pt: 'Aversão, medo irracional ou hostilidade direcionada a pessoas estrangeiras ou consideradas diferentes da maioria.',
+          en: 'Hostility, prejudice or irrational fear against people who are from other countries or ethnic origins.',
+          fr: 'Hostilité ou peur irrationnelle manifestée envers les personnes étrangères.',
+          uk: 'Неприязнь, упередження чи ворожість до іноземців або людей іншої культури.'
+        }
+      }
+    ];
+
+    const ARTISTS_DATA = [
+      {
+        id: 'artist_1',
+        name: 'Frida Kahlo',
+        culture: { pt: 'México', en: 'Mexico', fr: 'Mexique', uk: 'Мексика' },
+        art: { pt: 'Pintura & Surrealismo Cultural', en: 'Painting & Cultural Surrealism', fr: 'Peinture & Surréalisme', uk: 'Живопис і сюрреалізм' },
+        condition: {
+          pt: 'Poliomielite na infância e mobilidade reduzida após grave acidente',
+          en: 'Childhood polio and severe mobility impairment after bus accident',
+          fr: 'Poliomyélite infantile et mobilité réduite après un grave accident',
+          uk: 'Дитячий поліомієліт та обмежена мобільність після важкої аварії'
+        },
+        story: {
+          pt: 'Frida transformou a dor física e o período de recuperação na cama num testemunho de coragem, identidade mexicana e amor próprio, pintando através de um espelho colocado no teto.',
+          en: 'Frida transformed physical pain and bedridden recovery into an emblem of courage, Mexican identity, and self-love, painting using an overhead mirror attached to her bed canopy.',
+          fr: 'Frida a transformé la douleur physique et sa convalescence alitée en un témoignage de courage et d’identité mexicaine, peignant grâce à un miroir fixé au baldaquin de son lit.',
+          uk: 'Фріда перетворила фізичний біль і тривале лікування на витвір мужності та мексиканської ідентичності, малюючи за допомогою дзеркала, закріпленого над її ліжком.'
+        },
+        quote: {
+          pt: '«Pés, para que vos quero, se tenho asas para voar?»',
+          en: '“Feet, what do I need you for when I have wings to fly?”',
+          fr: '« Des pieds, pourquoi en voudrais-je si j’ai des ailes pour voler ? »',
+          uk: '«Навіщо мені ноги, якщо у мене є крила, щоб літати?»'
+        },
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Frida_Kahlo%2C_by_Guillermo_Kahlo.jpg/800px-Frida_Kahlo%2C_by_Guillermo_Kahlo.jpg',
+        badgeColor: 'from-rose-500 to-amber-500'
+      },
+      {
+        id: 'artist_2',
+        name: 'Ludwig van Beethoven',
+        culture: { pt: 'Alemanha / Europa', en: 'Germany / Europe', fr: 'Allemagne / Europe', uk: 'Німеччина / Європа' },
+        art: { pt: 'Música Clássica & Composição', en: 'Classical Music & Composition', fr: 'Musique Classique & Composition', uk: 'Класична музика та композиція' },
+        condition: {
+          pt: 'Perda auditiva progressiva até surdez total',
+          en: 'Progressive hearing loss leading to profound deafness',
+          fr: 'Perte auditive progressive jusqu’à la surdité complète',
+          uk: 'Прогресуюча втрата слуху до повної глухоти'
+        },
+        story: {
+          pt: 'Mesmo sem conseguir ouvir os aplausos do público, Beethoven sentia as vibrações das cordas no chão de madeira e compôs algumas das peças mais marcantes da humanidade, como a 9.ª Sinfonia.',
+          en: 'Even without being able to hear the applause, Beethoven felt the instrument vibrations through the wooden floor, composing timeless masterpieces including the Ninth Symphony.',
+          fr: 'Incapable d’entendre les applaudissements, Beethoven ressentait les vibrations des instruments à travers le plancher et a composé des chefs-d’œuvre comme la 9e Symphonie.',
+          uk: 'Не маючи змоги чути оплески глядачів, Бетховен відчував вібрації інструментів через дерев’яну підлогу й створив безсмертні шедеври, такі як 9-та симфонія.'
+        },
+        quote: {
+          pt: '«A música é uma revelação mais alta do que toda a sabedoria e filosofia.»',
+          en: '“Music is a higher revelation than all wisdom and philosophy.”',
+          fr: '« La musique est une révélation plus haute que toute sagesse et philosophie. »',
+          uk: '«Музика — це вище одкровення, ніж уся мудрість і філософія.»'
+        },
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Beethoven.jpg/800px-Beethoven.jpg',
+        badgeColor: 'from-amber-600 to-indigo-600'
+      },
+      {
+        id: 'artist_3',
+        name: 'Stevie Wonder',
+        culture: { pt: 'EUA / Cultura Afro-Americana', en: 'USA / African-American Heritage', fr: 'États-Unis / Culture Afro-Américaine', uk: 'США / Афроамериканська культура' },
+        art: { pt: 'Música Soul, Pop & Ativismo', en: 'Soul Music, Pop & Activism', fr: 'Musique Soul, Pop & Engagement', uk: 'Соул, поп-музика та правозахист' },
+        condition: {
+          pt: 'Cegueira congénita (desde o nascimento)',
+          en: 'Congenital blindness (from infancy)',
+          fr: 'Cécité congénitale (dès la petite enfance)',
+          uk: 'Вроджена сліпота (з дитинства)'
+        },
+        story: {
+          pt: 'Dotado de uma sensibilidade rítmica inigualável, Stevie Wonder dominou múltiplos instrumentos desde criança, conquistou 25 prémios Grammy e liderou campanhas históricas pelos Direitos Civis.',
+          en: 'Blessed with extraordinary sonic sensitivity, Stevie Wonder mastered multiple instruments as a child, won 25 Grammy Awards, and championed civil rights milestones worldwide.',
+          fr: 'Doté d’une prodigieuse sensibilité auditive, Stevie Wonder a maîtrisé de nombreux instruments dès l’enfance, a remporté 25 Grammy Awards et s’est engagé pour les Droits Civiques.',
+          uk: 'Володіючи дивовижним музичним слухом, Стіві Вандер із дитинства опанував багато інструментів, здобув 25 премій Греммі та став активним борцем за права людини.'
+        },
+        quote: {
+          pt: '«Só porque alguém não tem a visão física, não significa que não tenha visão de futuro.»',
+          en: '“Just because a man lacks the use of his eyes doesn’t mean he lacks vision.”',
+          fr: '« Ce n’est pas parce qu’une personne est privée de ses yeux qu’elle manque de vision. »',
+          uk: '«Те, що людина не бачить очима, не означає, що вона не має бачення майбутнього.»'
+        },
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Stevie_Wonder_1973.JPG/800px-Stevie_Wonder_1973.JPG',
+        badgeColor: 'from-yellow-500 to-purple-600'
+      },
+      {
+        id: 'artist_4',
+        name: 'Yayoi Kusama',
+        culture: { pt: 'Japão', en: 'Japan', fr: 'Japon', uk: 'Японія' },
+        art: { pt: 'Arte Contemporânea & Instalações', en: 'Contemporary Art & Installations', fr: 'Art Contemporain & Installations', uk: 'Сучасне мистецтво та інсталяції' },
+        condition: {
+          pt: 'Neurodivergência e desafios de saúde mental (alucinações visuais)',
+          en: 'Neurodivergence & mental health challenges (visual hallucinations)',
+          fr: 'Neurodivergence et défis de santé mentale (hallucinations visuelles)',
+          uk: 'Нейродивергентність та особливості психічного здоров’я'
+        },
+        story: {
+          pt: 'Desde pequena via o mundo coberto de redes e círculos de luz. Em vez de se isolar, canalizou a sua neurodivergência para criar as famosas salas espelhadas de infinito que hoje encantam milhões de pessoas.',
+          en: 'From youth she saw patterns of infinite dots. Channeling her unique neurological perception into painting and sculpture, she created world-renowned Infinity Mirror Rooms.',
+          fr: 'Voyant le monde couvert de pois et de motifs répétitifs, Yayoi a transformé sa perception unique en installations immersives infinies célébrées dans le monde entier.',
+          uk: 'Із дитинства бачачи світ крізь візерунки крапок, Яйої спрямувала своє сприйняття у творчість, створивши всесвітньо відомі дзеркальні кімнати нескінченності.'
+        },
+        quote: {
+          pt: '«A nossa Terra é apenas uma bolinha entre milhões de estrelas no universo.»',
+          en: '“Our Earth is only one polka dot among a million stars in the cosmos.”',
+          fr: '« Notre Terre n’est qu’un petit point parmi des millions d’étoiles dans le cosmos. »',
+          uk: '«Наша Земля — це лише одна цятка серед мільйонів зірок у космосі.»'
+        },
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Yayoi_Kusama_2016.jpg/800px-Yayoi_Kusama_2016.jpg',
+        badgeColor: 'from-rose-600 to-pink-500'
+      },
+      {
+        id: 'artist_5',
+        name: 'Sudha Chandran',
+        culture: { pt: 'Índia', en: 'India', fr: 'Inde', uk: 'Індія' },
+        art: { pt: 'Dança Clássica Indiana (Bharatanatyam)', en: 'Classical Indian Dance (Bharatanatyam)', fr: 'Danse Classique Indienne (Bharatanatyam)', uk: 'Класичний індійський танець (Бхаратанатьям)' },
+        condition: {
+          pt: 'Amputação de membro inferior (utilizadora de prótese Jaipur Foot)',
+          en: 'Lower-limb amputation (Jaipur Foot prosthetic user)',
+          fr: 'Amputation d’un membre inférieur (prothèse Jaipur Foot)',
+          uk: 'Ампутація ноги (використання протеза Jaipur Foot)'
+        },
+        story: {
+          pt: 'Após perder a perna direita num acidente na juventude, reaprendeu pacientemente cada passo de dança clássica com uma prótese inovadora, tornando-se uma das bailarinas mais aclamadas da Índia.',
+          en: 'After losing her leg in a bus crash, she painstakingly relearned every sacred classical dance step with a Jaipur prosthetic leg, inspiring millions worldwide.',
+          fr: 'Après avoir perdu sa jambe dans un accident, elle a réappris avec patience chaque pas de danse traditionnelle grâce à une prothèse, devenant une icône culturelle en Inde.',
+          uk: 'Втративши ногу в аварії, Судха заново освоїла складні рухи класичного танцю за допомогою протеза, ставши однією з найвідоміших танцівниць Індії.'
+        },
+        quote: {
+          pt: '«A dança não reside nas pernas; a dança vive no espírito e na paixão.»',
+          en: '“Dancing does not live in your legs; it lives in your soul and your passion.”',
+          fr: '« La danse ne réside pas dans les jambes ; elle vit dans l’âme et la passion. »',
+          uk: '«Танець живе не в ногах; танець живе у душі та пристрасті.»'
+        },
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Sudha_Chandran_at_Indian_Television_Academy_Awards_2016.jpg/800px-Sudha_Chandran_at_Indian_Television_Academy_Awards_2016.jpg',
+        badgeColor: 'from-orange-500 to-emerald-600'
+      },
+      {
+        id: 'artist_6',
+        name: 'Henri de Toulouse-Lautrec',
+        culture: { pt: 'França', en: 'France', fr: 'France', uk: 'Франція' },
+        art: { pt: 'Pintura Pós-Impressionista & Cartazes', en: 'Post-Impressionist Art & Poster Design', fr: 'Post-Impressionnisme & Affiches', uk: 'Постімпресіонізм та плакатне мистецтво' },
+        condition: {
+          pt: 'Doença genética óssea (picnodisostose) e baixa estatura',
+          en: 'Genetic bone disorder (pycnodysostosis) and restricted growth',
+          fr: 'Maladie génétique osseuse (pycnodysostose) et petite taille',
+          uk: 'Генетичне захворювання кісток та низький зріст'
+        },
+        story: {
+          pt: 'Com problemas nas pernas que limitavam as brincadeiras físicas, dedicou-se apaixonadamente ao desenho. Foi pioneiro do design gráfico moderno e capturou a essência humana e empática de Paris.',
+          en: 'Unable to participate in conventional physical activities due to fragile bone fractures, Lautrec immersed himself in drawing, revolutionizing modern poster art and empathic portraiture.',
+          fr: 'Ne pouvant pratiquer d’activités physiques à cause de ses fractures, Lautrec s’est réfugié dans le dessin, devenant le père de l’affiche moderne et un observateur sensible de Paris.',
+          uk: 'Через крихкість кісток Анрі не міг брати участь у звичайних забавах, тому присвятив себе малюванню, створивши сучасне плакатне мистецтво та щирі портрети парижан.'
+        },
+        quote: {
+          pt: '«Eu pintei as pessoas tal como elas são, com verdade e alma.»',
+          en: '“I have tried to paint the truth and show people as they genuinely are.”',
+          fr: '« J’ai essayé de peindre le vrai et de montrer les êtres tels qu’ils sont. »',
+          uk: '«Я намагався малювати правду й показувати людей такими, якими вони є.»'
+        },
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Henri_de_Toulouse-Lautrec_circa_1889.jpg/800px-Henri_de_Toulouse-Lautrec_circa_1889.jpg',
+        badgeColor: 'from-blue-600 to-amber-500'
+      },
+      {
+        id: 'artist_7',
+        name: 'Christy Brown',
+        culture: { pt: 'Irlanda', en: 'Ireland', fr: 'Irlande', uk: 'Ірландія' },
+        art: { pt: 'Pintura & Literatura Autobiográfica', en: 'Painting & Autobiographical Literature', fr: 'Peinture & Littérature Autobiographique', uk: 'Живопис та автобіографічна література' },
+        condition: {
+          pt: 'Paralisia cerebral severa (apenas controlo motor no pé esquerdo)',
+          en: 'Severe cerebral palsy (motor control confined to left foot)',
+          fr: 'Infirmité motrice cérébrale sévère (contrôle moteur au pied gauche)',
+          uk: 'Важка форма ДЦП (рухливість лише лівої ноги)'
+        },
+        story: {
+          pt: 'Inicialmente considerado incapaz de comunicar, agarrou num giz com os dedos do pé esquerdo aos cinco anos e desenhou a letra "A". Tornou-se um pintor premiado e autor do livro mundial "O Meu Pé Esquerdo".',
+          en: 'Initially thought unable to communicate, at age 5 he held chalk with his left toes and drew the letter "A". He became a celebrated painter and author of "My Left Foot".',
+          fr: 'Considéré initialement comme incapable d’apprendre, il a saisi une craie avec les orteils de son pied gauche à cinq ans pour tracer un "A", devenant un auteur et peintre célèbre.',
+          uk: 'У дитинстві його вважали нездатним до навчання, але в 5 років він затиснув крейду пальцями лівої ноги й написав літеру «А», ставши згодом видатним художником і письменником.'
+        },
+        quote: {
+          pt: '«A maior vitória é conseguir quebrar o silêncio e partilhar a própria voz.»',
+          en: '“The greatest victory is breaking through silence to share your inner truth.”',
+          fr: '« La plus grande victoire est de briser le silence et d’exprimer sa vérité. »',
+          uk: '«Найбільша перемога — подолати мовчання та знайти власний голос.»'
+        },
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Christy_Brown_1971.jpg/800px-Christy_Brown_1971.jpg',
+        badgeColor: 'from-emerald-600 to-indigo-600'
+      },
+      {
+        id: 'artist_8',
+        name: 'Chuck Close',
+        culture: { pt: 'EUA', en: 'USA', fr: 'États-Unis', uk: 'США' },
+        art: { pt: 'Pintura Hiper-realista & Retratos', en: 'Hyperrealistic Painting & Portraiture', fr: 'Peinture Hyperréaliste & Portraits', uk: 'Гіперреалістичний живопис та портрети' },
+        condition: {
+          pt: 'Dislexia, prosopagnosia (cegueira de rostos) e tetraplegia',
+          en: 'Dyslexia, prosopagnosia (face blindness), and quadriplegia',
+          fr: 'Dyslexie, prosopagnosie (cécité des visages) et tétraplégie',
+          uk: 'Дислексія, прозопагнозія (нездатність розпізнавати обличчя) та параліч'
+        },
+        story: {
+          pt: 'Por não conseguir memorizar rostos, pintava retratos gigantes usando grelhas quadriculadas. Quando sofreu uma paralisia aos 48 anos, prendeu os pincéis ao pulso com faixas para continuar a criar arte monumental.',
+          en: 'Unable to recognize faces, he painted monumental grid portraits. When spinal collapse caused paralysis, he strapped brushes to his wrist and continued producing acclaimed masterpieces.',
+          fr: 'Incroyable créateur incapable de mémoriser les visages, Chuck Close peignait des portraits géants sur grille. Même paralysé à 48 ans, il attachait son pinceau à son poignet pour continuer à peindre.',
+          uk: 'Через нездатність запам’ятовувати обличчя Чак створював гігантські портрети за допомогою сітки. Після паралічу він фіксував пензлі на зап’ясті й продовжував творити шедеври.'
+        },
+        quote: {
+          pt: '«A inspiração é para amadores; o resto de nós senta-se e trabalha com determinação.»',
+          en: '“Inspiration is for amateurs; the rest of us just show up and get to work.”',
+          fr: '« L’inspiration est pour les amateurs ; nous autres, nous nous mettons au travail. »',
+          uk: '«Натхнення — для аматорів; решта з нас просто сідає за роботу з вірою в себе.»'
+        },
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Chuck_Close_2012.jpg/800px-Chuck_Close_2012.jpg',
+        badgeColor: 'from-cyan-600 to-indigo-700'
+      },
+      {
+        id: 'artist_9',
+        name: 'Itzhak Perlman',
+        culture: { pt: 'Israel / Internacional', en: 'Israel / Global', fr: 'Israël / Monde', uk: 'Ізраїль / Міжнародна спільнота' },
+        art: { pt: 'Música Erudita (Violino Virtuoso)', en: 'Classical Violin Virtuoso', fr: 'Violon Virtuose & Pédagogie', uk: 'Класична музика (віолончель і скрипка-віртуоз)' },
+        condition: {
+          pt: 'Mobilidade reduzida devido à poliomielite aos quatro anos',
+          en: 'Mobility impairment from polio contracted at age four',
+          fr: 'Mobilité réduite due à la poliomyélite contractée à quatre ans',
+          uk: 'Обмежена мобільність через поліомієліт у чотирирічному віці'
+        },
+        story: {
+          pt: 'Apesar de lhe dizerem que um violinista tinha de tocar de pé, Perlman revolucionou as salas de concerto tocando sentado na sua cadeira de rodas com maestria ímpar, vencendo 16 Grammys e 4 Emmys.',
+          en: 'Defying assumptions that violinists must stand on stage, Perlman performed seated from his wheelchair with supreme virtuosity, winning 16 Grammys and advancing barrier-free access everywhere.',
+          fr: 'Bravant les préjugés affirmant qu’un violoniste devait jouer debout, Perlman s’est produit assis sur scène avec un brio inégalé, remportant 16 Grammys et militant pour l’accessibilité.',
+          uk: 'Всупереч стереотипу, що скрипаль повинен грати стоячи, Перлман виступав сидячи у візку з неперевершеною майстерністю, здобувши 16 премій Греммі та відстоюючи безбар’єрність.'
+        },
+        quote: {
+          pt: '«Não deixem que o que não conseguem fazer vos impeça de fazer o que adoram.»',
+          en: '“Never let what you cannot do stop you from doing what you love.”',
+          fr: '« Ne laissez jamais ce que vous ne pouvez pas faire vous empêcher de faire ce que vous aimez. »',
+          uk: '«Ніколи не дозволяйте тому, чого ви не можете зробити, зупинити вас від того, що ви любите.»'
+        },
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Itzhak_Perlman_1984.jpg/800px-Itzhak_Perlman_1984.jpg',
+        badgeColor: 'from-indigo-600 to-emerald-500'
+      },
+      {
+        id: 'artist_10',
+        name: 'Stephen Wiltshire',
+        culture: { pt: 'Reino Unido / Raízes nas Caraíbas', en: 'United Kingdom / Caribbean Roots', fr: 'Royaume-Uni / Racines Caribéennes', uk: 'Велика Британія / Карибське коріння' },
+        art: { pt: 'Desenho Arquitetónico & Memória Visual', en: 'Architectural Drawing & Visual Memory', fr: 'Dessin Architectural & Mémoire Visuelle', uk: 'Архітектурний малюнок та візуальна пам’ять' },
+        condition: {
+          pt: 'Autismo (não-verbal na primeira infância)',
+          en: 'Autism (non-verbal in early childhood)',
+          fr: 'Autisme (non-verbal pendant la petite enfance)',
+          uk: 'Аутизм (мовленнєві особливості в дитинстві)'
+        },
+        story: {
+          pt: 'Diagnosticado com autismo aos três anos, encontrou no lápis a sua primeira forma de comunicar com o mundo. Hoje consegue desenhar panoramas inteiros de cidades (como Londres, Nova Iorque ou Tóquio) de memória exata após um único voo de helicóptero.',
+          en: 'Diagnosed with autism at three, drawing became his primary voice. Today he draws vast, intricate panoramas of world capitals entirely from memory after a single brief helicopter flight.',
+          fr: 'Diagnostiqué avec autisme à trois ans, le dessin est devenu son langage. Aujourd’hui, il dessine des panoramas entiers de métropoles uniquement de mémoire après un survol en hélicoptère.',
+          uk: 'У 3 роки в нього діагностували аутизм, і малювання стало його мовою спілкування. Сьогодні він малює точні панорами світових столиць повністю по пам’яті після одного польоту на гелікоптері.'
+        },
+        quote: {
+          pt: '«Façam o vosso melhor e nunca desistam do vosso talento especial.»',
+          en: '“Do the best you can and never stop nurturing your talent.”',
+          fr: '« Faites de votre mieux et n’abandonnez jamais vos dons uniques. »',
+          uk: '«Робіть усе можливе й ніколи не полишайте розвивати свій унікальний хист.»'
+        },
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Stephen_Wiltshire_2009.jpg/800px-Stephen_Wiltshire_2009.jpg',
+        badgeColor: 'from-amber-500 to-teal-500'
+      }
+    ];
+
+    class SoundEngine {
+      constructor() {
+        this.ctx = null;
+        this.enabled = true;
+      }
+      init() {
+        if (!this.ctx && typeof window !== 'undefined') {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (AudioCtx) this.ctx = new AudioCtx();
+        }
+      }
+      playTone(freq, duration, type = 'sine', gainVal = 0.1) {
+        if (!this.enabled) return;
+        try {
+          this.init();
+          if (!this.ctx) return;
+          if (this.ctx.state === 'suspended') this.ctx.resume();
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+          gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start();
+          osc.stop(this.ctx.currentTime + duration);
+        } catch(e) {}
+      }
+      playSuccess() {
+        this.playTone(523.25, 0.12, 'triangle', 0.12);
+        setTimeout(() => this.playTone(659.25, 0.12, 'triangle', 0.12), 100);
+        setTimeout(() => this.playTone(783.99, 0.25, 'triangle', 0.15), 200);
+      }
+      playError() {
+        this.playTone(220, 0.18, 'sawtooth', 0.12);
+        setTimeout(() => this.playTone(180, 0.25, 'sawtooth', 0.12), 120);
+      }
+      playFanfare() {
+        [523.25, 659.25, 783.99, 1046.5].forEach((freq, idx) => {
+          setTimeout(() => this.playTone(freq, 0.35, 'triangle', 0.18), idx * 160);
+        });
+      }
+    }
+
+    const sound = new SoundEngine();
+
+    const state = {
+      lang: localStorage.getItem('torre_diversidade_lang') || 'pt',
+      tab: 'desafios',
+      activeChamber: 0,
+      unlocked: JSON.parse(localStorage.getItem('torre_diversidade_unlocked') || '[false,false,false,false]'),
+      codes: JSON.parse(localStorage.getItem('torre_diversidade_codes') || '["","","",""]'),
+      masterUnlocked: localStorage.getItem('torre_diversidade_master') === 'true',
+      easyReadingMode: false,
+      userAnswers: {},
+      hintsShown: {},
+      validationStatus: {},
+      fontSizeLevel: 1,
+      dyslexicFont: false,
+      expandedSpacing: false,
+      highContrast: false,
+      readingRuler: false,
+      reducedMotion: false,
+      speechRate: 1.0,
+      isSpeaking: false,
+      voices: JSON.parse(localStorage.getItem('torre_diversidade_vozes') || 'null') || [
+        {
+          id: 'contrib_default_1',
+          title: 'Bandeira da Amizade',
+          author: 'Turma 6.º B • E.B. 2,3',
+          text: 'Desenhámos uma árvore onde cada folha representa o país ou a língua de origem de um aluno da nossa escola. Somos 9 origens diferentes na mesma sala!',
+          audioUrl: null,
+          imageUrl: null,
+          date: 'Hoje'
+        }
+      ]
+    };
+
+    function saveState() {
+      localStorage.setItem('torre_diversidade_lang', state.lang);
+      localStorage.setItem('torre_diversidade_unlocked', JSON.stringify(state.unlocked));
+      localStorage.setItem('torre_diversidade_codes', JSON.stringify(state.codes));
+      localStorage.setItem('torre_diversidade_master', state.masterUnlocked ? 'true' : 'false');
+      localStorage.setItem('torre_diversidade_vozes', JSON.stringify(state.voices));
+    }
+
+    function getT() {
+      return TRANSLATIONS[state.lang] || TRANSLATIONS.pt;
+    }
+
+    function speakText(text) {
+      if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+      if (state.isSpeaking) {
+        window.speechSynthesis.cancel();
+        state.isSpeaking = false;
+        updateTTSButton();
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const t = getT();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = t.speechLang;
+      utterance.rate = state.speechRate * 0.95;
+
+      const voices = window.speechSynthesis.getVoices();
+      const matched = voices.find(v => v.lang.startsWith(t.speechLang.slice(0, 2)));
+      if (matched) utterance.voice = matched;
+
+      state.isSpeaking = true;
+      updateTTSButton();
+
+      utterance.onend = () => {
+        state.isSpeaking = false;
+        updateTTSButton();
+      };
+      utterance.onerror = () => {
+        state.isSpeaking = false;
+        updateTTSButton();
+      };
+
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function updateTTSButton() {
+      const t = getT();
+      const btn = document.getElementById('btn-tts');
+      const label = document.getElementById('tts-label');
+      if (state.isSpeaking) {
+        btn.classList.add('bg-rose-500', 'text-white', 'border-rose-400', 'animate-pulse');
+        label.textContent = t.stopSpeaking;
+      } else {
+        btn.classList.remove('bg-rose-500', 'text-white', 'border-rose-400', 'animate-pulse');
+        label.textContent = t.listenInstruction;
+      }
+    }
+
+    /* Normalização de texto para validação inclusiva */
+    function normalizeText(str) {
+      if (!str) return '';
+      return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]/g, '').trim();
+    }
+
+    function checkQuestion(q) {
+      const userVal = state.userAnswers[q.id] || '';
+      if (state.easyReadingMode) {
+        return userVal === String(q.correctOptionIndex);
+      }
+      const norm = normalizeText(userVal);
+      if (!norm) return false;
+      return q.correctAnswers.some(ans => {
+        const normAns = normalizeText(ans);
+        return norm === normAns || norm.includes(normAns) || normAns.includes(norm);
+      });
+    }
+
+    function updateUITexts() {
+      const t = getT();
+      document.getElementById('app-title').textContent = t.appTitle;
+      document.getElementById('app-subtitle').textContent = t.subtitle;
+      document.getElementById('nav-challenges-text').textContent = t.navChallenges;
+      document.getElementById('nav-suitcase-text').textContent = t.navSuitcase;
+      document.getElementById('nav-voices-text').textContent = t.navVoices;
+      const navArtistsEl = document.getElementById('nav-artists-text');
+      if (navArtistsEl) navArtistsEl.textContent = t.navArtists;
+      document.getElementById('nav-master-text').textContent = t.navMaster;
+      document.getElementById('tts-label').textContent = state.isSpeaking ? t.stopSpeaking : t.listenInstruction;
+      document.getElementById('dyslexia-label').textContent = t.dyslexiaFontTitle;
+      document.getElementById('spacing-label').textContent = t.spacingTitle;
+      document.getElementById('ruler-label').textContent = t.rulerTitle;
+      document.getElementById('contrast-label').textContent = t.contrastTitle;
+      document.getElementById('motion-label').textContent = t.noMotionTitle;
+      document.getElementById('glossary-label').textContent = t.glossaryBtn;
+      document.getElementById('reading-mode-text').textContent = state.easyReadingMode ? t.modeSwitchEasy : t.modeSwitchStandard;
+
+      document.getElementById('suitcase-title').querySelector('span').textContent = t.navSuitcase;
+      document.getElementById('suitcase-desc').textContent = t.suitcaseDesc;
+      document.getElementById('voices-title').querySelector('span').textContent = t.navVoices;
+      document.getElementById('voices-desc').textContent = t.voicesDesc;
+      const artistsTitleEl = document.getElementById('artists-title');
+      if (artistsTitleEl) artistsTitleEl.querySelector('span').textContent = t.artistsTitle;
+      const artistsDescEl = document.getElementById('artists-desc');
+      if (artistsDescEl) artistsDescEl.textContent = t.artistsDesc;
+      document.getElementById('create-voice-heading').querySelector('span').textContent = t.createNewVoice;
+      document.getElementById('voice-input-title').placeholder = t.titlePlaceholder;
+      document.getElementById('voice-input-author').placeholder = t.authorPlaceholder;
+      document.getElementById('voice-input-text').placeholder = t.textPlaceholder;
+      document.getElementById('record-voice-label').textContent = isRecordingVoice ? t.stopRecord : t.recordVoice;
+      document.getElementById('share-work-btn-text').textContent = t.shareWork;
+
+      document.getElementById('master-title').textContent = t.masterPadlockTitle;
+      document.getElementById('master-desc').textContent = t.masterPadlockDesc;
+      document.getElementById('slot-label-1').textContent = `${t.chamber} 1`;
+      document.getElementById('slot-label-2').textContent = `${t.chamber} 2`;
+      document.getElementById('slot-label-3').textContent = `${t.chamber} 3`;
+      document.getElementById('slot-label-4').textContent = `${t.chamber} 4`;
+      document.getElementById('unlock-master-btn-text').textContent = t.unlockMasterBtn;
+      document.getElementById('reset-mission-text').textContent = t.resetProgress;
+      document.getElementById('victory-title-text').textContent = t.victoryTitle;
+      document.getElementById('victory-msg-text').textContent = t.victoryMsg;
+      document.getElementById('reflection-title-text').textContent = t.reflectionTitle;
+      document.getElementById('reflection-question-text').textContent = t.reflectionQuestion;
+      document.getElementById('listen-reflection-text').textContent = t.listenInstruction;
+      document.getElementById('glossary-modal-heading').querySelector('span').textContent = t.glossaryBtn;
+
+      // Idioma ativo nos botões
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        if (btn.dataset.lang === state.lang) {
+          btn.className = 'lang-btn px-2 py-1 text-xs font-bold rounded-md bg-indigo-600 text-white';
+        } else {
+          btn.className = 'lang-btn px-2 py-1 text-xs font-bold rounded-md text-slate-400 hover:text-white';
+        }
+      });
+    }
+
+    function renderChamberTrack() {
+      const t = getT();
+      const container = document.getElementById('chamber-track');
+      container.innerHTML = '';
+
+      CHALLENGES_DATA.forEach((ch, idx) => {
+        const isUnlocked = state.unlocked[idx];
+        const isCurrent = state.tab === 'desafios' && state.activeChamber === idx;
+        const btn = document.createElement('button');
+        btn.className = `w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center font-bold text-xs transition-all border ${
+          isUnlocked
+            ? 'bg-emerald-500/20 border-emerald-400 text-emerald-300 shadow-sm'
+            : isCurrent
+            ? 'bg-amber-500 text-slate-950 border-amber-300 ring-2 ring-amber-400/50'
+            : 'bg-slate-800 border-slate-700 text-slate-400 hover:border-slate-500'
+        }`;
+        btn.title = `${ch.title[state.lang] || ch.title.pt}: ${isUnlocked ? t.unlockedBadge : t.lockedBadge}`;
+        btn.innerHTML = isUnlocked ? `<i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>` : `${idx + 1}`;
+        btn.addEventListener('click', () => {
+          state.tab = 'desafios';
+          state.activeChamber = idx;
+          switchTab('desafios');
+          sound.playSuccess();
+        });
+        container.appendChild(btn);
+      });
+
+      const masterBtn = document.createElement('button');
+      masterBtn.className = `px-2 py-1 rounded-lg border flex items-center gap-1 text-xs font-bold ${
+        state.masterUnlocked
+          ? 'bg-emerald-500 text-slate-950 border-emerald-300 animate-pulse'
+          : 'bg-slate-800 border-slate-700 text-slate-300 hover:border-amber-400'
+      }`;
+      masterBtn.innerHTML = `<i data-lucide="trophy" class="w-3.5 h-3.5 text-amber-400"></i>`;
+      masterBtn.addEventListener('click', () => {
+        switchTab('mestre');
+        sound.playSuccess();
+      });
+      container.appendChild(masterBtn);
+    }
+
+    function renderChamber() {
+      const t = getT();
+      const current = CHALLENGES_DATA[state.activeChamber];
+      const isUnlocked = state.unlocked[state.activeChamber];
+
+      document.getElementById('chamber-badge').textContent = `${t.chamber} ${state.activeChamber + 1} / 4`;
+      document.getElementById('chamber-title').textContent = current.title[state.lang] || current.title.pt;
+
+      const statusBadge = document.getElementById('chamber-status-badge');
+      if (isUnlocked) {
+        statusBadge.classList.remove('hidden');
+        statusBadge.classList.add('flex');
+        document.getElementById('chamber-status-text').textContent = t.unlockedBadge;
+      } else {
+        statusBadge.classList.add('hidden');
+        statusBadge.classList.remove('flex');
+      }
+
+      // Renderizar Perguntas
+      const qContainer = document.getElementById('questions-container');
+      qContainer.innerHTML = '';
+
+      current.questions.forEach((q, idx) => {
+        const qText = q.text[state.lang] || q.text.pt;
+        const qHint = q.hint[state.lang] || q.hint.pt;
+        const status = state.validationStatus[q.id];
+        const isHintShown = state.hintsShown[q.id];
+
+        const card = document.createElement('div');
+        card.className = `rounded-2xl p-5 border transition-all shadow-lg ${
+          status === 'correct'
+            ? 'bg-emerald-950/20 border-emerald-500/40 ring-1 ring-emerald-500/20'
+            : status === 'incorrect'
+            ? 'bg-rose-950/20 border-rose-500/40'
+            : 'bg-slate-900/60 border-slate-800'
+        }`;
+
+        let inputMarkup = '';
+        if (state.easyReadingMode) {
+          const opts = q.options[state.lang] || q.options.pt;
+          inputMarkup = `
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              ${opts.map((opt, optIdx) => {
+                const isSelected = state.userAnswers[q.id] === String(optIdx);
+                return `
+                  <button data-qid="${q.id}" data-opt="${optIdx}" class="option-btn p-3 rounded-xl border text-left text-sm font-semibold transition-all flex items-center justify-between ${
+                    isSelected ? 'bg-indigo-600 border-indigo-400 text-white shadow-md' : 'bg-slate-800/80 border-slate-700 text-slate-200 hover:bg-slate-700'
+                  }">
+                    <span>${opt}</span>
+                    ${isSelected ? '<i data-lucide="check" class="w-4 h-4 text-white"></i>' : ''}
+                  </button>
+                `;
+              }).join('')}
+            </div>
+          `;
+        } else {
+          inputMarkup = `
+            <div class="flex flex-col sm:flex-row gap-2">
+              <input type="text" data-qid="${q.id}" value="${state.userAnswers[q.id] || ''}" placeholder="${t.inputPlaceholder}" class="text-input flex-1 px-4 py-2.5 rounded-xl bg-slate-800/90 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-400 text-sm font-medium">
+              <button data-verify-qid="${q.id}" class="btn-verify-single px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm shadow-md transition-all flex items-center justify-center gap-1.5">
+                <i data-lucide="check" class="w-4 h-4"></i>
+                <span>${t.verifyAnswer}</span>
+              </button>
+            </div>
+          `;
+        }
+
+        card.innerHTML = `
+          <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-4">
+            <div class="flex items-start gap-3">
+              <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center font-bold text-indigo-300 text-sm">
+                ${idx + 1}
+              </span>
+              <p class="font-semibold text-slate-100 sm:pt-0.5">${qText}</p>
+            </div>
+            <button data-speak-text="${encodeURIComponent(qText)}" class="btn-speak-q self-end sm:self-auto p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 flex-shrink-0" title="${t.listenInstruction}">
+              <i data-lucide="volume-2" class="w-4 h-4 text-amber-400"></i>
+            </button>
+          </div>
+          <div class="space-y-3">
+            ${inputMarkup}
+            <div class="flex flex-wrap items-center justify-between gap-2 pt-2">
+              <div>
+                ${status === 'correct' ? `<p class="text-emerald-400 font-bold text-xs sm:text-sm flex items-center gap-1.5"><i data-lucide="check-circle-2" class="w-4 h-4"></i>${t.correctFeedback}</p>` : ''}
+                ${status === 'incorrect' ? `<p class="text-rose-400 font-bold text-xs sm:text-sm flex items-center gap-1.5"><i data-lucide="alert-circle" class="w-4 h-4"></i>${t.incorrectFeedback}</p>` : ''}
+              </div>
+              <button data-hint-qid="${q.id}" class="text-xs text-amber-400 hover:text-amber-300 font-semibold flex items-center gap-1">
+                <i data-lucide="lightbulb" class="w-3.5 h-3.5"></i>
+                <span>${t.hintLabel}</span>
+              </button>
+            </div>
+            ${isHintShown ? `
+              <div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs sm:text-sm flex items-start gap-2">
+                <i data-lucide="info" class="w-4 h-4 flex-shrink-0 text-amber-400 mt-0.5"></i>
+                <p>${qHint}</p>
+              </div>
+            ` : ''}
+          </div>
+        `;
+        qContainer.appendChild(card);
+      });
+
+      // Mini-Cofre da Câmara
+      document.getElementById('safe-badge-text').textContent = `${t.miniSafeTitle} ${state.activeChamber + 1}`;
+      document.getElementById('safe-heading-text').textContent = isUnlocked
+        ? `${t.chamberUnlocked} [ ${current.code} ]`
+        : t.solveAllClues;
+      document.getElementById('safe-explanation-text').textContent = current.logicExplanation[state.lang] || current.logicExplanation.pt;
+
+      const safeActionArea = document.getElementById('safe-action-area');
+      if (isUnlocked) {
+        safeActionArea.innerHTML = `
+          <div class="flex flex-col sm:flex-row items-center gap-3">
+            <div class="px-5 py-3 rounded-xl bg-emerald-500/20 border border-emerald-400 text-emerald-300 font-black text-2xl tracking-widest shadow-inner">
+              ${current.code}
+            </div>
+            <button id="btn-goto-suitcase" class="px-4 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs sm:text-sm shadow-md transition-all flex items-center gap-1.5">
+              <i data-lucide="briefcase" class="w-4 h-4"></i>
+              <span>${t.viewInSuitcase}</span>
+            </button>
+          </div>
+        `;
+        document.getElementById('btn-goto-suitcase').addEventListener('click', () => {
+          switchTab('mala');
+          sound.playSuccess();
+        });
+      } else {
+        safeActionArea.innerHTML = `
+          <div class="flex items-center gap-2">
+            <input type="text" id="safe-input" value="${state.codes[state.activeChamber] || ''}" placeholder="${t.codePlaceholder}" class="w-28 px-3 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-center text-white font-mono font-bold tracking-widest focus:ring-2 focus:ring-amber-400 focus:outline-none">
+            <button id="btn-unlock-safe" class="px-4 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-sm shadow-lg transition-all flex items-center gap-1.5">
+              <i data-lucide="unlock" class="w-4 h-4"></i>
+              <span>${t.unlockChamber}</span>
+            </button>
+          </div>
+        `;
+
+        document.getElementById('safe-input').addEventListener('input', (e) => {
+          state.codes[state.activeChamber] = e.target.value;
+          saveState();
+        });
+
+        document.getElementById('btn-unlock-safe').addEventListener('click', () => {
+          const val = (state.codes[state.activeChamber] || '').trim();
+          if (val === current.code) {
+            state.unlocked[state.activeChamber] = true;
+            saveState();
+            sound.playFanfare();
+            renderAll();
+          } else {
+            sound.playError();
+            document.getElementById('safe-input').classList.add('border-rose-500', 'animate-shake');
+            setTimeout(() => document.getElementById('safe-input')?.classList.remove('border-rose-500', 'animate-shake'), 600);
+          }
+        });
+      }
+
+      // Eventos de clique nas perguntas
+      attachQuestionEvents(current);
+    }
+
+    function attachQuestionEvents(currentChamber) {
+      // Fala de cada pergunta
+      document.querySelectorAll('.btn-speak-q').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const text = decodeURIComponent(btn.dataset.speakText);
+          speakText(text);
+        });
+      });
+
+      // Alternância de dicas
+      document.querySelectorAll('[data-hint-qid]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const qid = btn.dataset.hintQid;
+          state.hintsShown[qid] = !state.hintsShown[qid];
+          renderChamber();
+          lucide.createIcons();
+        });
+      });
+
+      // Modo Escolha Múltipla
+      document.querySelectorAll('.option-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const qid = btn.dataset.qid;
+          const optIdx = btn.dataset.opt;
+          state.userAnswers[qid] = optIdx;
+          const targetQ = currentChamber.questions.find(q => q.id === qid);
+          const isCorrect = checkQuestion(targetQ);
+          state.validationStatus[qid] = isCorrect ? 'correct' : 'incorrect';
+          if (isCorrect) sound.playSuccess();
+          else sound.playError();
+          renderChamber();
+          lucide.createIcons();
+        });
+      });
+
+      // Modo Escrita Livre
+      document.querySelectorAll('.text-input').forEach(input => {
+        input.addEventListener('input', (e) => {
+          const qid = input.dataset.qid;
+          state.userAnswers[qid] = e.target.value;
+          state.validationStatus[qid] = undefined;
+        });
+      });
+
+      document.querySelectorAll('.btn-verify-single').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const qid = btn.dataset.verifyQid;
+          const targetQ = currentChamber.questions.find(q => q.id === qid);
+          const isCorrect = checkQuestion(targetQ);
+          state.validationStatus[qid] = isCorrect ? 'correct' : 'incorrect';
+          if (isCorrect) {
+            sound.playSuccess();
+          } else {
+            sound.playError();
+            state.hintsShown[qid] = true;
+          }
+          renderChamber();
+          lucide.createIcons();
+        });
+      });
+    }
+
+    function renderSuitcase() {
+      const t = getT();
+      const count = state.unlocked.filter(Boolean).length;
+      document.getElementById('suitcase-counter').textContent = `${count} / 4 ${t.objectsDiscovered}`;
+
+      const grid = document.getElementById('suitcase-grid');
+      grid.innerHTML = '';
+
+      CULTURAL_OBJECTS.forEach((obj, idx) => {
+        const isUnlocked = state.unlocked[idx];
+        const title = obj.title[state.lang] || obj.title.pt;
+        const origin = obj.origin[state.lang] || obj.origin.pt;
+        const context = obj.context[state.lang] || obj.context.pt;
+        const symbolism = obj.symbolism[state.lang] || obj.symbolism.pt;
+
+        const card = document.createElement('div');
+        card.className = `rounded-2xl border transition-all p-5 flex flex-col justify-between ${
+          isUnlocked ? 'bg-slate-900/90 border-amber-400/40 shadow-xl ring-1 ring-amber-400/20' : 'bg-slate-900/40 border-slate-800 opacity-60'
+        }`;
+
+        card.innerHTML = `
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-tr ${obj.iconBg} flex items-center justify-center shadow-lg text-white">
+                <i data-lucide="${isUnlocked ? 'sparkles' : 'lock'}" class="w-6 h-6"></i>
+              </div>
+              <span class="px-2.5 py-1 rounded-full text-xs font-bold border ${isUnlocked ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' : 'bg-slate-800 text-slate-500 border-slate-700'}">
+                ${isUnlocked ? t.unlockedBadge : t.lockedBadge}
+              </span>
+            </div>
+
+            <div class="relative overflow-hidden rounded-xl h-48 sm:h-52 w-full border border-slate-800 bg-slate-950 group">
+              <img src="${obj.imageUrl}" alt="${title}" class="w-full h-full object-cover transition-all duration-500 ${isUnlocked ? 'filter-none scale-100 group-hover:scale-105' : 'blur-md grayscale opacity-40 scale-105'}" loading="lazy">
+              ${!isUnlocked ? `
+                <div class="absolute inset-0 flex items-center justify-center bg-black/50">
+                  <span class="px-3 py-1.5 rounded-lg bg-slate-900/90 border border-slate-700 text-slate-300 text-xs font-bold flex items-center gap-1.5 shadow-lg">
+                    <i data-lucide="lock" class="w-3.5 h-3.5 text-amber-400"></i>
+                    ${t.lockedBadge}
+                  </span>
+                </div>
+              ` : ''}
+            </div>
+
+            <div>
+              <h3 class="text-lg font-bold text-white mb-1">${title}</h3>
+              <p class="text-xs font-semibold text-amber-400">${origin}</p>
+            </div>
+
+            ${isUnlocked ? `
+              <div class="space-y-2 text-xs sm:text-sm text-slate-300">
+                <p><strong class="text-white">${t.contextLabel}:</strong> ${context}</p>
+                <p><strong class="text-white">${t.symbolismLabel}:</strong> ${symbolism}</p>
+              </div>
+            ` : `
+              <p class="text-xs text-slate-500 italic">
+                ${t.lockObjMsg.replace('{num}', String(idx + 1))}
+              </p>
+            `}
+          </div>
+
+          ${isUnlocked ? `
+            <div class="pt-4 border-t border-slate-800 flex justify-end">
+              <button data-speak-story="${encodeURIComponent(`${title}. ${t.originLabel}: ${origin}. ${t.contextLabel}: ${context}. ${t.symbolismLabel}: ${symbolism}`)}" class="btn-story px-3 py-1.5 rounded-lg bg-indigo-600/30 hover:bg-indigo-600/50 text-indigo-300 border border-indigo-500/40 text-xs font-bold flex items-center gap-1.5 transition-all">
+                <i data-lucide="volume-2" class="w-3.5 h-3.5"></i>
+                <span>${t.listenStory}</span>
+              </button>
+            </div>
+          ` : ''}
+        `;
+        grid.appendChild(card);
+      });
+
+      document.querySelectorAll('.btn-story').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const text = decodeURIComponent(btn.dataset.speakStory);
+          speakText(text);
+        });
+      });
+    }
+
+    function renderVoicesGallery() {
+      const t = getT();
+      const gallery = document.getElementById('voices-gallery');
+      if (!gallery) return;
+      gallery.innerHTML = '';
+
+      if (!state.voices || state.voices.length === 0) {
+        gallery.innerHTML = `<p class="text-slate-500 text-sm col-span-full py-8 text-center">${t.emptyVoices}</p>`;
+        return;
+      }
+
+      state.voices.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'bg-slate-900/80 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between space-y-3 shadow-lg';
+        card.innerHTML = `
+          <div>
+            ${item.imageUrl ? `<img src="${item.imageUrl}" alt="${item.title}" class="w-full h-40 object-cover rounded-xl mb-3 border border-slate-800" />` : ''}
+            <div class="flex items-start justify-between gap-2">
+              <h4 class="font-bold text-white text-base">${item.title}</h4>
+              <span class="text-[10px] text-slate-500 px-2 py-0.5 rounded-md bg-slate-800">${item.date || t.today}</span>
+            </div>
+            <p class="text-xs text-amber-400 font-semibold mb-2">${item.author}</p>
+            ${item.text ? `<p class="text-xs text-slate-300 leading-relaxed">${item.text}</p>` : ''}
+          </div>
+          ${item.audioUrl ? `
+            <div class="pt-2">
+              <audio src="${item.audioUrl}" controls class="w-full h-8"></audio>
+            </div>
+          ` : ''}
+        `;
+        gallery.appendChild(card);
+      });
+    }
+
+    function renderArtists() {
+      const t = getT();
+      const grid = document.getElementById('artists-grid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      ARTISTS_DATA.forEach(artist => {
+        const culture = artist.culture[state.lang] || artist.culture.pt;
+        const art = artist.art[state.lang] || artist.art.pt;
+        const condition = artist.condition[state.lang] || artist.condition.pt;
+        const story = artist.story[state.lang] || artist.story.pt;
+        const quote = artist.quote[state.lang] || artist.quote.pt;
+
+        const card = document.createElement('div');
+        card.className = 'bg-slate-900/90 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between space-y-4 shadow-xl hover:border-amber-400/40 transition-all';
+
+        card.innerHTML = `
+          <div class="space-y-3">
+            <div class="flex items-center justify-between gap-2">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-gradient-to-r ${artist.badgeColor} text-white shadow-sm">
+                ${culture}
+              </span>
+              <span class="text-[11px] font-semibold text-slate-400 text-right truncate">
+                ${art}
+              </span>
+            </div>
+
+            <div class="relative overflow-hidden rounded-xl h-48 w-full border border-slate-800 bg-slate-950 group">
+              <img src="${artist.imageUrl}" alt="${artist.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" onerror="this.src='https://placehold.co/400x300/1e293b/ffffff?text=${encodeURIComponent(artist.name)}'">
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80"></div>
+              <h3 class="absolute bottom-2 left-3 right-3 text-lg font-black text-white drop-shadow-md">
+                ${artist.name}
+              </h3>
+            </div>
+
+            <div class="p-2.5 rounded-xl bg-slate-800/80 border border-slate-700/80 space-y-1">
+              <span class="text-[10px] uppercase font-bold text-amber-300 tracking-wider flex items-center gap-1">
+                <i data-lucide="heart" class="w-3 h-3 text-rose-400"></i>
+                ${t.conditionLabel}
+              </span>
+              <p class="text-xs text-slate-200 font-semibold leading-snug">${condition}</p>
+            </div>
+
+            <p class="text-xs text-slate-300 leading-relaxed">${story}</p>
+
+            <blockquote class="p-2.5 rounded-xl bg-indigo-950/30 border-l-2 border-indigo-400 text-xs italic text-indigo-200">
+              ${quote}
+            </blockquote>
+          </div>
+
+          <div class="pt-2 border-t border-slate-800 flex justify-end">
+            <button data-speak-artist="${encodeURIComponent(`${artist.name}. ${culture}. ${art}. ${condition}. ${story} ${quote}`)}" class="btn-artist-audio px-3 py-1.5 rounded-lg bg-indigo-600/30 hover:bg-indigo-600/50 text-indigo-300 border border-indigo-500/40 text-xs font-bold flex items-center gap-1.5 transition-all">
+              <i data-lucide="volume-2" class="w-3.5 h-3.5 text-amber-400"></i>
+              <span>${t.listenStory}</span>
+            </button>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+
+      grid.querySelectorAll('.btn-artist-audio').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const textToSpeak = decodeURIComponent(btn.dataset.speakArtist);
+          speakText(textToSpeak);
+        });
+      });
+    }
+
+    function renderMasterPadlock() {
+      const t = getT();
+      [0, 1, 2, 3].forEach(idx => {
+        const input = document.getElementById(`master-input-${idx}`);
+        if (input) input.value = state.codes[idx] || '';
+      });
+      const victoryBanner = document.getElementById('master-victory-banner');
+      if (victoryBanner) {
+        if (state.masterUnlocked) {
+          victoryBanner.classList.remove('hidden');
+        } else {
+          victoryBanner.classList.add('hidden');
+        }
+      }
+    }
+
+    function renderGlossaryModal() {
+      const t = getT();
+      const list = document.getElementById('glossary-list');
+      if (!list) return;
+      list.innerHTML = '';
+
+      GLOSSARY_TERMS.forEach(item => {
+        const termName = item.term[state.lang] || item.term.pt;
+        const termDesc = item.desc[state.lang] || item.desc.pt;
+        const div = document.createElement('div');
+        div.className = 'p-3.5 rounded-xl bg-slate-800/60 border border-slate-700/60 space-y-1';
+        div.innerHTML = `
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-amber-300 text-sm">${termName}</span>
+            <button data-speak-term="${encodeURIComponent(`${termName}. ${termDesc}`)}" class="btn-speak-term p-1 rounded text-slate-400 hover:text-white" title="${t.listenInstruction}">
+              <i data-lucide="volume-2" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed">${termDesc}</p>
+        `;
+        list.appendChild(div);
+      });
+
+      list.querySelectorAll('.btn-speak-term').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const text = decodeURIComponent(btn.dataset.speakTerm);
+          speakText(text);
+        });
+      });
+    }
+
+    function renderAll() {
+      updateUITexts();
+      renderChamberTrack();
+      renderChamber();
+      renderSuitcase();
+      renderVoicesGallery();
+      renderArtists();
+      renderMasterPadlock();
+      renderGlossaryModal();
+      lucide.createIcons();
+    }
+
+    function switchTab(tabId) {
+      state.tab = tabId;
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        if (btn.dataset.tab === tabId) {
+          btn.className = 'tab-btn flex items-center space-x-2 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-bold transition-all bg-gradient-to-r from-amber-500 to-indigo-600 text-white shadow-md';
+        } else {
+          btn.className = 'tab-btn flex items-center space-x-2 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-bold transition-all text-slate-300 hover:bg-slate-800 hover:text-white';
+        }
+      });
+
+      document.querySelectorAll('.tab-content').forEach(section => {
+        section.classList.add('hidden');
+      });
+      const activeSection = document.getElementById(`tab-${tabId}`);
+      if (activeSection) activeSection.classList.remove('hidden');
+
+      renderAll();
+    }
+
+    // Gravação de Áudio com Web Audio API / MediaRecorder
+    let mediaRecorder = null;
+    let audioChunks = [];
+    let isRecordingVoice = false;
+    let recordedAudioUrl = null;
+    let uploadedImageData = null;
+
+    async function toggleVoiceRecording() {
+      const t = getT();
+      const btn = document.getElementById('btn-record-voice');
+      const label = document.getElementById('record-voice-label');
+
+      if (!isRecordingVoice) {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return;
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          audioChunks = [];
+          mediaRecorder = new MediaRecorder(stream);
+          mediaRecorder.ondataavailable = e => {
+            if (e.data.size > 0) audioChunks.push(e.data);
+          };
+          mediaRecorder.onstop = () => {
+            const blob = new Blob(audioChunks, { type: 'audio/webm' });
+            recordedAudioUrl = URL.createObjectURL(blob);
+            const audioPrev = document.getElementById('audio-preview');
+            audioPrev.src = recordedAudioUrl;
+            audioPrev.classList.remove('hidden');
+            stream.getTracks().forEach(t => t.stop());
+          };
+          mediaRecorder.start();
+          isRecordingVoice = true;
+          btn.classList.add('bg-rose-600', 'text-white', 'border-rose-400', 'animate-pulse');
+          label.textContent = t.stopRecord;
+          sound.playSuccess();
+        } catch(err) {
+          sound.playError();
+        }
+      } else {
+        if (mediaRecorder && isRecordingVoice) {
+          mediaRecorder.stop();
+          isRecordingVoice = false;
+          btn.classList.remove('bg-rose-600', 'text-white', 'border-rose-400', 'animate-pulse');
+          label.textContent = t.recordVoice;
+          sound.playSuccess();
+        }
+      }
+      lucide.createIcons();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      // Alternância de Idiomas
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          state.lang = btn.dataset.lang;
+          saveState();
+          sound.playSuccess();
+          renderAll();
+        });
+      });
+
+      // Navegação por Abas
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          switchTab(btn.dataset.tab);
+          sound.playSuccess();
+        });
+      });
+
+      // Síntese de Voz Global
+      document.getElementById('btn-tts').addEventListener('click', () => {
+        const t = getT();
+        speakText(`${t.appTitle}. ${t.subtitle}`);
+      });
+
+      // Velocidade de Síntese
+      document.getElementById('btn-speed').addEventListener('click', () => {
+        state.speechRate = state.speechRate === 0.8 ? 1.0 : state.speechRate === 1.0 ? 1.25 : 0.8;
+        document.getElementById('speed-indicator').textContent = `${state.speechRate.toFixed(1)}x`;
+        sound.playSuccess();
+      });
+
+      // Efeitos Sonoros
+      document.getElementById('btn-sound').addEventListener('click', () => {
+        sound.enabled = !sound.enabled;
+        const icon = document.getElementById('btn-sound').querySelector('i');
+        if (sound.enabled) {
+          sound.playSuccess();
+          icon.setAttribute('data-lucide', 'sparkles');
+          icon.classList.add('text-amber-400');
+        } else {
+          icon.setAttribute('data-lucide', 'volume-x');
+          icon.classList.remove('text-amber-400');
+        }
+        lucide.createIcons();
+      });
+
+      // Ajuste de Tamanho de Letra
+      document.getElementById('btn-font-dec').addEventListener('click', () => {
+        state.fontSizeLevel = Math.max(0, state.fontSizeLevel - 1);
+        document.body.className = document.body.className.replace(/font-size-\d/, `font-size-${state.fontSizeLevel}`);
+      });
+      document.getElementById('btn-font-inc').addEventListener('click', () => {
+        state.fontSizeLevel = Math.min(2, state.fontSizeLevel + 1);
+        document.body.className = document.body.className.replace(/font-size-\d/, `font-size-${state.fontSizeLevel}`);
+      });
+
+      // Modo Dislexia
+      document.getElementById('btn-dyslexia').addEventListener('click', () => {
+        state.dyslexicFont = !state.dyslexicFont;
+        document.body.classList.toggle('dyslexia-font', state.dyslexicFont);
+        document.getElementById('btn-dyslexia').classList.toggle('bg-amber-400', state.dyslexicFont);
+        document.getElementById('btn-dyslexia').classList.toggle('text-slate-950', state.dyslexicFont);
+      });
+
+      // Espaçamento WCAG 1.4.12
+      document.getElementById('btn-spacing').addEventListener('click', () => {
+        state.expandedSpacing = !state.expandedSpacing;
+        document.body.classList.toggle('expanded-spacing', state.expandedSpacing);
+        document.getElementById('btn-spacing').classList.toggle('bg-emerald-400', state.expandedSpacing);
+        document.getElementById('btn-spacing').classList.toggle('text-slate-950', state.expandedSpacing);
+      });
+
+      // Régua de Leitura
+      document.getElementById('btn-ruler').addEventListener('click', () => {
+        state.readingRuler = !state.readingRuler;
+        const ruler = document.getElementById('reading-ruler');
+        ruler.style.display = state.readingRuler ? 'block' : 'none';
+        document.getElementById('btn-ruler').classList.toggle('bg-amber-400', state.readingRuler);
+        document.getElementById('btn-ruler').classList.toggle('text-slate-950', state.readingRuler);
+      });
+      window.addEventListener('mousemove', (e) => {
+        if (state.readingRuler) {
+          const ruler = document.getElementById('reading-ruler');
+          ruler.style.top = `${e.clientY}px`;
+        }
+      });
+
+      // Alto Contraste
+      document.getElementById('btn-contrast').addEventListener('click', () => {
+        state.highContrast = !state.highContrast;
+        document.body.classList.toggle('high-contrast', state.highContrast);
+        document.getElementById('btn-contrast').classList.toggle('bg-yellow-400', state.highContrast);
+        document.getElementById('btn-contrast').classList.toggle('text-black', state.highContrast);
+      });
+
+      // Redução de Movimento
+      document.getElementById('btn-motion').addEventListener('click', () => {
+        state.reducedMotion = !state.reducedMotion;
+        document.body.classList.toggle('no-motion', state.reducedMotion);
+        document.getElementById('btn-motion').classList.toggle('bg-purple-400', state.reducedMotion);
+        document.getElementById('btn-motion').classList.toggle('text-slate-950', state.reducedMotion);
+      });
+
+      // Modal Glossário
+      document.getElementById('btn-glossary-modal').addEventListener('click', () => {
+        document.getElementById('modal-glossary').classList.remove('hidden');
+      });
+      document.getElementById('btn-close-glossary').addEventListener('click', () => {
+        document.getElementById('modal-glossary').classList.add('hidden');
+      });
+
+      // Modo Leitura Fácil (Opções) vs Escrita
+      document.getElementById('btn-toggle-reading-mode').addEventListener('click', () => {
+        state.easyReadingMode = !state.easyReadingMode;
+        sound.playSuccess();
+        renderChamber();
+        updateUITexts();
+        lucide.createIcons();
+      });
+
+      // Gravação e Upload na aba Vozes da Escola
+      document.getElementById('btn-record-voice').addEventListener('click', toggleVoiceRecording);
+
+      document.getElementById('voice-file-input').addEventListener('change', (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = ev => {
+          uploadedImageData = ev.target.result;
+          document.getElementById('image-upload-label').textContent = getT().imageLoaded;
+        };
+        reader.readAsDataURL(file);
+      });
+
+      document.getElementById('form-voice-publish').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const t = getT();
+        const title = document.getElementById('voice-input-title').value.trim() || t.defaultClassMessage;
+        const author = document.getElementById('voice-input-author').value.trim() || t.defaultAnonymous;
+        const text = document.getElementById('voice-input-text').value.trim();
+
+        if (!title && !text && !recordedAudioUrl && !uploadedImageData) return;
+
+        const newVoice = {
+          id: 'voice_' + Date.now(),
+          title,
+          author,
+          text,
+          audioUrl: recordedAudioUrl,
+          imageUrl: uploadedImageData,
+          date: t.today
+        };
+
+        state.voices.unshift(newVoice);
+        saveState();
+        sound.playSuccess();
+
+        // Limpar formulário
+        document.getElementById('voice-input-title').value = '';
+        document.getElementById('voice-input-author').value = '';
+        document.getElementById('voice-input-text').value = '';
+        document.getElementById('audio-preview').classList.add('hidden');
+        document.getElementById('image-upload-label').textContent = t.addImageBtn;
+        recordedAudioUrl = null;
+        uploadedImageData = null;
+
+        renderVoicesGallery();
+      });
+
+      // Cadeado Mestre
+      [0, 1, 2, 3].forEach(idx => {
+        const input = document.getElementById(`master-input-${idx}`);
+        input.addEventListener('input', (e) => {
+          state.codes[idx] = e.target.value;
+          saveState();
+        });
+      });
+
+      document.getElementById('btn-unlock-master').addEventListener('click', () => {
+        const isReady =
+          (state.codes[0] || '').trim() === '3' &&
+          (state.codes[1] || '').trim() === '48' &&
+          (state.codes[2] || '').trim() === '33' &&
+          (state.codes[3] || '').trim() === '7';
+
+        if (isReady) {
+          state.masterUnlocked = true;
+          saveState();
+          sound.playFanfare();
+          renderMasterPadlock();
+          lucide.createIcons();
+        } else {
+          sound.playError();
+          [0, 1, 2, 3].forEach(idx => {
+            const input = document.getElementById(`master-input-${idx}`);
+            input.classList.add('border-rose-500');
+            setTimeout(() => input.classList.remove('border-rose-500'), 800);
+          });
+        }
+      });
+
+      document.getElementById('btn-reset-mission').addEventListener('click', () => {
+        state.unlocked = [false, false, false, false];
+        state.codes = ['', '', '', ''];
+        state.masterUnlocked = false;
+        state.userAnswers = {};
+        state.validationStatus = {};
+        state.hintsShown = {};
+        saveState();
+        sound.playSuccess();
+        renderAll();
+      });
+
+      document.getElementById('btn-listen-reflection').addEventListener('click', () => {
+        const t = getT();
+        speakText(`${t.reflectionTitle}. ${t.reflectionQuestion}`);
+      });
+
+      // Inicialização
+      renderAll();
+    });
+  </script>
+</body>
+</html>
